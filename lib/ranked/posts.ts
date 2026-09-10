@@ -43,10 +43,14 @@ function uniqueSlug(title: string, contentId: string, taken: Set<string>): strin
   return `${base}-${i}`
 }
 
+// Ranked CMS integration is disabled — always fall back to local blog-data.json posts.
+const RANKED_INTEGRATION_ENABLED = false
+
 export async function getLiveRankedBlogPosts(
   projectId?: string,
   opts: { generateCovers?: boolean; generateForSlug?: string } = {},
 ): Promise<BlogPostData[]> {
+  if (!RANKED_INTEGRATION_ENABLED) return []
   if (!isRankedConfigured() && !projectId) return []
   const id = process.env.RANKED_PROJECT_ID
   if (!process.env.RANKED_API_KEY || !id) return []

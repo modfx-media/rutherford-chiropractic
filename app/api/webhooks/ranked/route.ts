@@ -25,7 +25,13 @@ function timestampFresh(header: string | null): boolean {
   return Math.abs(Date.now() / 1000 - unix) <= MAX_AGE_SECONDS
 }
 
+const RANKED_INTEGRATION_ENABLED = false
+
 export async function POST(request: Request) {
+  if (!RANKED_INTEGRATION_ENABLED) {
+    return NextResponse.json({ ok: false, error: 'Ranked integration disabled' }, { status: 503 })
+  }
+
   const secret = process.env.RANKED_WEBHOOK_SECRET
   if (!secret) {
     return NextResponse.json({ ok: false, error: 'Webhook not configured' }, { status: 503 })
