@@ -2,15 +2,15 @@
   "generatedAt": "2026-07-28T21:30:22.576Z",
   "origin": "https://rutherfordchiropractic.com",
   "totals": {
-    "all": 148,
+    "all": 150,
     "home": 1,
     "core-service": 7,
     "utility": 4,
     "location-landing": 69,
     "blog-index": 1,
-    "blog-post": 68,
+    "blog-post": 70,
     "other": 0,
-    "routes": 136
+    "routes": 138
   },
   "routes": [
     {
@@ -110,6 +110,216 @@
                 "inLanguage": "en-US",
                 "mainEntityOfPage": {
                   "@id": "https://rutherfordchiropractic.com/#webpage"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
+      "url": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
+      "lastmod": "2026-09-01T17:00:00+00:00",
+      "source": "post",
+      "category": "blog-post",
+      "fetchError": null,
+      "meta": {
+        "title": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+        "description": "Follow a simple 7-day routine for chronic pain relief in Murfreesboro, TN with sleep setup, walking doses, heat/ice timing, and posture tips",
+        "canonical": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
+        "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+        "openGraph": {
+          "title": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+          "description": "Follow a simple 7-day routine for chronic pain relief in Murfreesboro, TN with sleep setup, walking doses, heat/ice timing, and posture tips",
+          "image": "/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png",
+          "type": "article"
+        },
+        "twitter": {
+          "card": "summary_large_image"
+        },
+        "jsonLd": [
+          {
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": [
+                  "Person",
+                  "Organization"
+                ],
+                "@id": "https://rutherfordchiropractic.com/#person",
+                "name": "Chiropractic Murfreesboro TN"
+              },
+              {
+                "@type": "WebSite",
+                "@id": "https://rutherfordchiropractic.com/#website",
+                "url": "https://rutherfordchiropractic.com",
+                "name": "Chiropractic Murfreesboro TN",
+                "publisher": {
+                  "@id": "https://rutherfordchiropractic.com/#person"
+                },
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "ImageObject",
+                "@id": "https://rutherfordchiropractic.com/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png",
+                "url": "https://rutherfordchiropractic.com/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png",
+                "width": "1280",
+                "height": "720",
+                "caption": "7-Day Home Pain Relief Plan",
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "WebPage",
+                "@id": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/#webpage",
+                "url": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
+                "name": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+                "datePublished": "2026-09-01T17:00:00+00:00",
+                "dateModified": "2026-09-01T17:00:00+00:00",
+                "isPartOf": {
+                  "@id": "https://rutherfordchiropractic.com/#website"
+                },
+                "primaryImageOfPage": {
+                  "@id": "https://rutherfordchiropractic.com/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png"
+                },
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "Person",
+                "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                "name": "Palash",
+                "url": "https://rutherfordchiropractic.com/author/palashseo/"
+              },
+              {
+                "@type": "BlogPosting",
+                "headline": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+                "datePublished": "2026-09-01T17:00:00+00:00",
+                "dateModified": "2026-09-01T17:00:00+00:00",
+                "articleSection": "Back Pain",
+                "author": {
+                  "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                  "name": "Palash"
+                },
+                "publisher": {
+                  "@id": "https://rutherfordchiropractic.com/#person"
+                },
+                "description": "Follow a simple 7-day routine for chronic pain relief in Murfreesboro, TN with sleep setup, walking doses, heat/ice timing, and posture tips",
+                "name": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+                "@id": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/#richSnippet",
+                "isPartOf": {
+                  "@id": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/#webpage"
+                },
+                "image": {
+                  "@id": "https://rutherfordchiropractic.com/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png"
+                },
+                "inLanguage": "en-US",
+                "mainEntityOfPage": {
+                  "@id": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/#webpage"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "/chronic-pain-care-tips-for-murfreesboro-patients/",
+      "url": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/",
+      "lastmod": "2026-09-08T17:00:00+00:00",
+      "source": "post",
+      "category": "blog-post",
+      "fetchError": null,
+      "meta": {
+        "title": "Chronic Pain Care Tips for Murfreesboro Patients",
+        "description": "Learn how to talk to your doctor about chronic pain treatments in Murfreesboro, TN, including meds, imaging, and drug-free options.",
+        "canonical": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/",
+        "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+        "openGraph": {
+          "title": "Chronic Pain Care Tips for Murfreesboro Patients",
+          "description": "Learn how to talk to your doctor about chronic pain treatments in Murfreesboro, TN, including meds, imaging, and drug-free options.",
+          "image": "/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg",
+          "type": "article"
+        },
+        "twitter": {
+          "card": "summary_large_image"
+        },
+        "jsonLd": [
+          {
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": [
+                  "Person",
+                  "Organization"
+                ],
+                "@id": "https://rutherfordchiropractic.com/#person",
+                "name": "Chiropractic Murfreesboro TN"
+              },
+              {
+                "@type": "WebSite",
+                "@id": "https://rutherfordchiropractic.com/#website",
+                "url": "https://rutherfordchiropractic.com",
+                "name": "Chiropractic Murfreesboro TN",
+                "publisher": {
+                  "@id": "https://rutherfordchiropractic.com/#person"
+                },
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "ImageObject",
+                "@id": "https://rutherfordchiropractic.com/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg",
+                "url": "https://rutherfordchiropractic.com/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg",
+                "width": "681",
+                "height": "450",
+                "caption": "Talking to Your Doctor About Chronic Pain",
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "WebPage",
+                "@id": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/#webpage",
+                "url": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/",
+                "name": "Chronic Pain Care Tips for Murfreesboro Patients",
+                "datePublished": "2026-09-08T17:00:00+00:00",
+                "dateModified": "2026-09-08T17:00:00+00:00",
+                "isPartOf": {
+                  "@id": "https://rutherfordchiropractic.com/#website"
+                },
+                "primaryImageOfPage": {
+                  "@id": "https://rutherfordchiropractic.com/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg"
+                },
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "Person",
+                "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                "name": "Palash",
+                "url": "https://rutherfordchiropractic.com/author/palashseo/"
+              },
+              {
+                "@type": "BlogPosting",
+                "headline": "Chronic Pain Care Tips for Murfreesboro Patients",
+                "datePublished": "2026-09-08T17:00:00+00:00",
+                "dateModified": "2026-09-08T17:00:00+00:00",
+                "articleSection": "Back Pain",
+                "author": {
+                  "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                  "name": "Palash"
+                },
+                "publisher": {
+                  "@id": "https://rutherfordchiropractic.com/#person"
+                },
+                "description": "Learn how to talk to your doctor about chronic pain treatments in Murfreesboro, TN, including meds, imaging, and drug-free options.",
+                "name": "Chronic Pain Care Tips for Murfreesboro Patients",
+                "@id": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/#richSnippet",
+                "isPartOf": {
+                  "@id": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/#webpage"
+                },
+                "image": {
+                  "@id": "https://rutherfordchiropractic.com/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg"
+                },
+                "inLanguage": "en-US",
+                "mainEntityOfPage": {
+                  "@id": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/#webpage"
                 }
               }
             ]
@@ -48518,6 +48728,216 @@
       }
     ],
     "blog-post": [
+      {
+        "path": "/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
+        "url": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
+        "lastmod": "2026-09-01T17:00:00+00:00",
+        "source": "post",
+        "category": "blog-post",
+        "fetchError": null,
+        "meta": {
+          "title": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+          "description": "Follow a simple 7-day routine for chronic pain relief in Murfreesboro, TN with sleep setup, walking doses, heat/ice timing, and posture tips",
+          "canonical": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
+          "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+          "openGraph": {
+            "title": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+            "description": "Follow a simple 7-day routine for chronic pain relief in Murfreesboro, TN with sleep setup, walking doses, heat/ice timing, and posture tips",
+            "image": "/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png",
+            "type": "article"
+          },
+          "twitter": {
+            "card": "summary_large_image"
+          },
+          "jsonLd": [
+            {
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": [
+                    "Person",
+                    "Organization"
+                  ],
+                  "@id": "https://rutherfordchiropractic.com/#person",
+                  "name": "Chiropractic Murfreesboro TN"
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://rutherfordchiropractic.com/#website",
+                  "url": "https://rutherfordchiropractic.com",
+                  "name": "Chiropractic Murfreesboro TN",
+                  "publisher": {
+                    "@id": "https://rutherfordchiropractic.com/#person"
+                  },
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "ImageObject",
+                  "@id": "https://rutherfordchiropractic.com/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png",
+                  "url": "https://rutherfordchiropractic.com/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png",
+                  "width": "1280",
+                  "height": "720",
+                  "caption": "7-Day Home Pain Relief Plan",
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "WebPage",
+                  "@id": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/#webpage",
+                  "url": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
+                  "name": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+                  "datePublished": "2026-09-01T17:00:00+00:00",
+                  "dateModified": "2026-09-01T17:00:00+00:00",
+                  "isPartOf": {
+                    "@id": "https://rutherfordchiropractic.com/#website"
+                  },
+                  "primaryImageOfPage": {
+                    "@id": "https://rutherfordchiropractic.com/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png"
+                  },
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "Person",
+                  "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                  "name": "Palash",
+                  "url": "https://rutherfordchiropractic.com/author/palashseo/"
+                },
+                {
+                  "@type": "BlogPosting",
+                  "headline": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+                  "datePublished": "2026-09-01T17:00:00+00:00",
+                  "dateModified": "2026-09-01T17:00:00+00:00",
+                  "articleSection": "Back Pain",
+                  "author": {
+                    "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                    "name": "Palash"
+                  },
+                  "publisher": {
+                    "@id": "https://rutherfordchiropractic.com/#person"
+                  },
+                  "description": "Follow a simple 7-day routine for chronic pain relief in Murfreesboro, TN with sleep setup, walking doses, heat/ice timing, and posture tips",
+                  "name": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+                  "@id": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/#richSnippet",
+                  "isPartOf": {
+                    "@id": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/#webpage"
+                  },
+                  "image": {
+                    "@id": "https://rutherfordchiropractic.com/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png"
+                  },
+                  "inLanguage": "en-US",
+                  "mainEntityOfPage": {
+                    "@id": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/#webpage"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "path": "/chronic-pain-care-tips-for-murfreesboro-patients/",
+        "url": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/",
+        "lastmod": "2026-09-08T17:00:00+00:00",
+        "source": "post",
+        "category": "blog-post",
+        "fetchError": null,
+        "meta": {
+          "title": "Chronic Pain Care Tips for Murfreesboro Patients",
+          "description": "Learn how to talk to your doctor about chronic pain treatments in Murfreesboro, TN, including meds, imaging, and drug-free options.",
+          "canonical": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/",
+          "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+          "openGraph": {
+            "title": "Chronic Pain Care Tips for Murfreesboro Patients",
+            "description": "Learn how to talk to your doctor about chronic pain treatments in Murfreesboro, TN, including meds, imaging, and drug-free options.",
+            "image": "/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg",
+            "type": "article"
+          },
+          "twitter": {
+            "card": "summary_large_image"
+          },
+          "jsonLd": [
+            {
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": [
+                    "Person",
+                    "Organization"
+                  ],
+                  "@id": "https://rutherfordchiropractic.com/#person",
+                  "name": "Chiropractic Murfreesboro TN"
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://rutherfordchiropractic.com/#website",
+                  "url": "https://rutherfordchiropractic.com",
+                  "name": "Chiropractic Murfreesboro TN",
+                  "publisher": {
+                    "@id": "https://rutherfordchiropractic.com/#person"
+                  },
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "ImageObject",
+                  "@id": "https://rutherfordchiropractic.com/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg",
+                  "url": "https://rutherfordchiropractic.com/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg",
+                  "width": "681",
+                  "height": "450",
+                  "caption": "Talking to Your Doctor About Chronic Pain",
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "WebPage",
+                  "@id": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/#webpage",
+                  "url": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/",
+                  "name": "Chronic Pain Care Tips for Murfreesboro Patients",
+                  "datePublished": "2026-09-08T17:00:00+00:00",
+                  "dateModified": "2026-09-08T17:00:00+00:00",
+                  "isPartOf": {
+                    "@id": "https://rutherfordchiropractic.com/#website"
+                  },
+                  "primaryImageOfPage": {
+                    "@id": "https://rutherfordchiropractic.com/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg"
+                  },
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "Person",
+                  "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                  "name": "Palash",
+                  "url": "https://rutherfordchiropractic.com/author/palashseo/"
+                },
+                {
+                  "@type": "BlogPosting",
+                  "headline": "Chronic Pain Care Tips for Murfreesboro Patients",
+                  "datePublished": "2026-09-08T17:00:00+00:00",
+                  "dateModified": "2026-09-08T17:00:00+00:00",
+                  "articleSection": "Back Pain",
+                  "author": {
+                    "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                    "name": "Palash"
+                  },
+                  "publisher": {
+                    "@id": "https://rutherfordchiropractic.com/#person"
+                  },
+                  "description": "Learn how to talk to your doctor about chronic pain treatments in Murfreesboro, TN, including meds, imaging, and drug-free options.",
+                  "name": "Chronic Pain Care Tips for Murfreesboro Patients",
+                  "@id": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/#richSnippet",
+                  "isPartOf": {
+                    "@id": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/#webpage"
+                  },
+                  "image": {
+                    "@id": "https://rutherfordchiropractic.com/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg"
+                  },
+                  "inLanguage": "en-US",
+                  "mainEntityOfPage": {
+                    "@id": "https://rutherfordchiropractic.com/chronic-pain-care-tips-for-murfreesboro-patients/#webpage"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
       {
         "path": "/chronic-spine-pain-relief-with-rehab-care-in-murfreesboro/",
         "url": "https://rutherfordchiropractic.com/chronic-spine-pain-relief-with-rehab-care-in-murfreesboro/",

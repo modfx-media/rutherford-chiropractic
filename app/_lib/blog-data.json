@@ -1,5 +1,33 @@
 [
   {
+    "slug": "chronic-pain-care-tips-for-murfreesboro-patients",
+    "path": "/chronic-pain-care-tips-for-murfreesboro-patients/",
+    "title": "Chronic Pain Care Tips for Murfreesboro Patients",
+    "category": "Back Pain",
+    "publishedAt": "2026-09-08T17:00:00+00:00",
+    "featuredImage": {
+      "src": "/media/blog/chronic-pain-care-tips-for-murfreesboro-patients-featured.jpeg",
+      "alt": "Talking to Your Doctor About Chronic Pain",
+      "width": 681,
+      "height": 450
+    },
+    "excerpt": "Learn how to talk to your doctor about chronic pain treatments in Murfreesboro, TN, including meds, imaging, and drug-free options."
+  },
+  {
+    "slug": "7-day-home-plan-for-chronic-pain-relief-in-murfreesboro",
+    "path": "/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
+    "title": "7-Day Home Plan for Chronic Pain Relief in Murfreesboro",
+    "category": "Back Pain",
+    "publishedAt": "2026-09-01T17:00:00+00:00",
+    "featuredImage": {
+      "src": "/media/blog/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro-featured.png",
+      "alt": "7-Day Home Pain Relief Plan",
+      "width": 1280,
+      "height": 720
+    },
+    "excerpt": "Follow a simple 7-day routine for chronic pain relief in Murfreesboro, TN with sleep setup, walking doses, heat/ice timing, and posture tips"
+  },
+  {
     "slug": "chronic-spine-pain-relief-with-rehab-care-in-murfreesboro",
     "path": "/chronic-spine-pain-relief-with-rehab-care-in-murfreesboro/",
     "title": "Chronic Spine Pain Relief With Rehab Care in Murfreesboro",
@@ -384,10 +412,10 @@
     "category": "Back Pain",
     "publishedAt": "2025-12-16T22:52:40+00:00",
     "featuredImage": {
-      "src": "/media/blog/the-7-most-common-daily-activities-that-damage-your-spine-without-you-realizing-it-featured.jpg",
-      "alt": "Screenshot_20251216_175154_Gallery-1079x675",
-      "width": 1080,
-      "height": 675
+      "src": "/media/blog/the-7-most-common-daily-activities-that-damage-your-spine-without-you-realizing-it-featured.jpeg",
+      "alt": "The 7 Most Common Daily Activities That Damage Your Spine Without You Realizing It",
+      "width": 768,
+      "height": 534
     },
     "excerpt": "Discover common daily habits that harm your spine without you knowing. Rutherford Spine & Wellness Center reveals hidden spine damage causes and fixes."
   },
@@ -565,7 +593,12 @@
     "title": "Fixing Work-Related Spine Misalignment with Spinal Decompression",
     "category": "Spinal Decompression",
     "publishedAt": "2025-02-21T06:34:24+00:00",
-    "featuredImage": null,
+    "featuredImage": {
+      "src": "/media/spinal-decompression-murfreesboro-tn.jpg",
+      "alt": "Spine Misalignment",
+      "width": 1000,
+      "height": 720
+    },
     "excerpt": "At Rutherford Spine and Wellness Center in Murfreesboro, TN, we’ve helped countless people who were dealing with work-related spine issues."
   },
   {
@@ -577,8 +610,8 @@
     "featuredImage": {
       "src": "/media/blog/how-spinal-decompression-can-help-with-arthritis-and-numbness-featured.jpg",
       "alt": "How Spinal Decompression Can Help with Arthritis and Numbness",
-      "width": 1080,
-      "height": 675
+      "width": 1200,
+      "height": 900
     },
     "excerpt": "When people think of arthritis, they often picture joint pain, swelling, and stiffness. But arthritis can also lead to numbness and tingling, especially when it affects the spine"
   },
@@ -840,7 +873,12 @@
     "title": "Neuropathy Murfreesboro TN",
     "category": "Neuropathy",
     "publishedAt": "2024-05-06T06:05:30+00:00",
-    "featuredImage": null,
+    "featuredImage": {
+      "src": "/media/neuropathy-murfreesboro-tn-copy.jpg",
+      "alt": "Neuropathy",
+      "width": 370,
+      "height": 245
+    },
     "excerpt": "Get drug-free neuropathy treatment in Murfreesboro TN. Rutherford Spine & Wellness Center provides safe, natural relief from chronic nerve pain. Read more."
   },
   {
@@ -849,7 +887,12 @@
     "title": "Chiropractors Murfreesboro TN",
     "category": "Chiropractic Care",
     "publishedAt": "2024-05-06T06:05:30+00:00",
-    "featuredImage": null,
+    "featuredImage": {
+      "src": "/media/chiropractors-murfreesboro-tn-copy.jpg",
+      "alt": "Chiropractor",
+      "width": 370,
+      "height": 245
+    },
     "excerpt": "Find skilled chiropractors in Murfreesboro TN at Rutherford Spine & Wellness Center. We treat back pain, neck pain, and spine issues naturally. Call us!"
   },
   {
@@ -858,7 +901,12 @@
     "title": "Chiropractic Spinal Decompression Murfreesboro TN",
     "category": "Spinal Decompression",
     "publishedAt": "2024-05-06T06:05:30+00:00",
-    "featuredImage": null,
+    "featuredImage": {
+      "src": "/media/spinal-decompression-murfreesboro-tn-copy.jpg",
+      "alt": "Spinal Decompression",
+      "width": 370,
+      "height": 245
+    },
     "excerpt": "Read our article \"Chiropractic Spinal Decompression Murfreesboro TN\" to learn more. Explore our blog for the latest spine and wellness insights."
   },
   {
@@ -867,7 +915,12 @@
     "title": "Chiropractic Care for Sports Injuries Murfreesboro TN",
     "category": "Sports Injuries",
     "publishedAt": "2024-05-06T06:05:30+00:00",
-    "featuredImage": null,
+    "featuredImage": {
+      "src": "/media/sports-injuries-murfreesboro-tn.jpg",
+      "alt": "Sports Injury",
+      "width": 732,
+      "height": 402
+    },
     "excerpt": "Read our article \"Chiropractic Care for Sports Injuries Murfreesboro TN\" to learn more. Explore our blog for the latest spine and wellness insights."
   },
   {
@@ -876,7 +929,12 @@
     "title": "Best Chiropractor Murfreesboro TN",
     "category": "Chiropractic Care",
     "publishedAt": "2024-05-06T06:05:30+00:00",
-    "featuredImage": null,
+    "featuredImage": {
+      "src": "/media/back-pain-experts-murfreesboro-tn.jpg",
+      "alt": "Chiropractor",
+      "width": 800,
+      "height": 594
+    },
     "excerpt": "Read our article \"Best Chiropractor Murfreesboro TN\" to learn more. Explore our blog for the latest spine and wellness insights."
   },
   {
@@ -885,7 +943,12 @@
     "title": "Car Injury Chiropractic Care Murfreesboro TN",
     "category": "Chiropractic Care",
     "publishedAt": "2024-05-06T06:05:30+00:00",
-    "featuredImage": null,
+    "featuredImage": {
+      "src": "/media/auto-injury-pain-relief-murfreesboro-tn.jpg",
+      "alt": "Car Injury",
+      "width": 900,
+      "height": 601
+    },
     "excerpt": "Read our article \"Car Injury Chiropractic Care Murfreesboro TN\" to learn more. Explore our blog for the latest spine and wellness insights."
   },
   {
@@ -894,7 +957,12 @@
     "title": "Chiropractic Care Murfreesboro TN",
     "category": "Chiropractic Care",
     "publishedAt": "2024-05-06T06:05:30+00:00",
-    "featuredImage": null,
+    "featuredImage": {
+      "src": "/media/blog/chiropractic-care-murfreesboro-tn-featured.webp",
+      "alt": "Chiropractic Care",
+      "width": 2816,
+      "height": 1536
+    },
     "excerpt": "Read our article \"Chiropractic Care Murfreesboro TN\" to learn more. Explore our blog for the latest spine and wellness insights."
   },
   {
@@ -903,7 +971,12 @@
     "title": "Sports Injury Chiropractor Mufreesboro TN",
     "category": "Sports Injuries",
     "publishedAt": "2024-05-06T06:05:30+00:00",
-    "featuredImage": null,
+    "featuredImage": {
+      "src": "/media/sports-injury-murfreesboro-tn-copy.jpg",
+      "alt": "Sports Injury",
+      "width": 370,
+      "height": 245
+    },
     "excerpt": "Read our article \"Sports Injury Chiropractor Mufreesboro TN\" to learn more. Explore our blog for the latest spine and wellness insights."
   }
 ]
