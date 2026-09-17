@@ -2,15 +2,15 @@
   "generatedAt": "2026-07-28T21:30:22.576Z",
   "origin": "https://rutherfordchiropractic.com",
   "totals": {
-    "all": 150,
+    "all": 151,
     "home": 1,
     "core-service": 7,
     "utility": 4,
     "location-landing": 69,
     "blog-index": 1,
-    "blog-post": 70,
+    "blog-post": 71,
     "other": 0,
-    "routes": 138
+    "routes": 139
   },
   "routes": [
     {
@@ -110,6 +110,111 @@
                 "inLanguage": "en-US",
                 "mainEntityOfPage": {
                   "@id": "https://rutherfordchiropractic.com/#webpage"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "/fibromyalgia-relief-options-with-chiropractic-care/",
+      "url": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/",
+      "lastmod": "2026-09-14T17:00:00+00:00",
+      "source": "post",
+      "category": "blog-post",
+      "fetchError": null,
+      "meta": {
+        "title": "Fibromyalgia Relief Options With Chiropractic Care",
+        "description": "Explore non-invasive options for fibromyalgia treatment in Murfreesboro, including chiropractic care focused on spine, joint, and nerve support",
+        "canonical": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/",
+        "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+        "openGraph": {
+          "title": "Fibromyalgia Relief Options With Chiropractic Care",
+          "description": "Explore non-invasive options for fibromyalgia treatment in Murfreesboro, including chiropractic care focused on spine, joint, and nerve support",
+          "image": "/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png",
+          "type": "article"
+        },
+        "twitter": {
+          "card": "summary_large_image"
+        },
+        "jsonLd": [
+          {
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": [
+                  "Person",
+                  "Organization"
+                ],
+                "@id": "https://rutherfordchiropractic.com/#person",
+                "name": "Chiropractic Murfreesboro TN"
+              },
+              {
+                "@type": "WebSite",
+                "@id": "https://rutherfordchiropractic.com/#website",
+                "url": "https://rutherfordchiropractic.com",
+                "name": "Chiropractic Murfreesboro TN",
+                "publisher": {
+                  "@id": "https://rutherfordchiropractic.com/#person"
+                },
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "ImageObject",
+                "@id": "https://rutherfordchiropractic.com/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png",
+                "url": "https://rutherfordchiropractic.com/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png",
+                "width": "1536",
+                "height": "1024",
+                "caption": "Woman sitting on a couch with widespread pain highlighted on her body",
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "WebPage",
+                "@id": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/#webpage",
+                "url": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/",
+                "name": "Fibromyalgia Relief Options With Chiropractic Care",
+                "datePublished": "2026-09-14T17:00:00+00:00",
+                "dateModified": "2026-09-14T17:00:00+00:00",
+                "isPartOf": {
+                  "@id": "https://rutherfordchiropractic.com/#website"
+                },
+                "primaryImageOfPage": {
+                  "@id": "https://rutherfordchiropractic.com/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png"
+                },
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "Person",
+                "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                "name": "Palash",
+                "url": "https://rutherfordchiropractic.com/author/palashseo/"
+              },
+              {
+                "@type": "BlogPosting",
+                "headline": "Fibromyalgia Relief Options With Chiropractic Care",
+                "datePublished": "2026-09-14T17:00:00+00:00",
+                "dateModified": "2026-09-14T17:00:00+00:00",
+                "articleSection": "Chiropractic Care",
+                "author": {
+                  "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                  "name": "Palash"
+                },
+                "publisher": {
+                  "@id": "https://rutherfordchiropractic.com/#person"
+                },
+                "description": "Explore non-invasive options for fibromyalgia treatment in Murfreesboro, including chiropractic care focused on spine, joint, and nerve support",
+                "name": "Fibromyalgia Relief Options With Chiropractic Care",
+                "@id": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/#richSnippet",
+                "isPartOf": {
+                  "@id": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/#webpage"
+                },
+                "image": {
+                  "@id": "https://rutherfordchiropractic.com/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png"
+                },
+                "inLanguage": "en-US",
+                "mainEntityOfPage": {
+                  "@id": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/#webpage"
                 }
               }
             ]
@@ -48728,6 +48833,111 @@
       }
     ],
     "blog-post": [
+      {
+        "path": "/fibromyalgia-relief-options-with-chiropractic-care/",
+        "url": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/",
+        "lastmod": "2026-09-14T17:00:00+00:00",
+        "source": "post",
+        "category": "blog-post",
+        "fetchError": null,
+        "meta": {
+          "title": "Fibromyalgia Relief Options With Chiropractic Care",
+          "description": "Explore non-invasive options for fibromyalgia treatment in Murfreesboro, including chiropractic care focused on spine, joint, and nerve support",
+          "canonical": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/",
+          "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+          "openGraph": {
+            "title": "Fibromyalgia Relief Options With Chiropractic Care",
+            "description": "Explore non-invasive options for fibromyalgia treatment in Murfreesboro, including chiropractic care focused on spine, joint, and nerve support",
+            "image": "/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png",
+            "type": "article"
+          },
+          "twitter": {
+            "card": "summary_large_image"
+          },
+          "jsonLd": [
+            {
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": [
+                    "Person",
+                    "Organization"
+                  ],
+                  "@id": "https://rutherfordchiropractic.com/#person",
+                  "name": "Chiropractic Murfreesboro TN"
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://rutherfordchiropractic.com/#website",
+                  "url": "https://rutherfordchiropractic.com",
+                  "name": "Chiropractic Murfreesboro TN",
+                  "publisher": {
+                    "@id": "https://rutherfordchiropractic.com/#person"
+                  },
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "ImageObject",
+                  "@id": "https://rutherfordchiropractic.com/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png",
+                  "url": "https://rutherfordchiropractic.com/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png",
+                  "width": "1536",
+                  "height": "1024",
+                  "caption": "Woman sitting on a couch with widespread pain highlighted on her body",
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "WebPage",
+                  "@id": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/#webpage",
+                  "url": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/",
+                  "name": "Fibromyalgia Relief Options With Chiropractic Care",
+                  "datePublished": "2026-09-14T17:00:00+00:00",
+                  "dateModified": "2026-09-14T17:00:00+00:00",
+                  "isPartOf": {
+                    "@id": "https://rutherfordchiropractic.com/#website"
+                  },
+                  "primaryImageOfPage": {
+                    "@id": "https://rutherfordchiropractic.com/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png"
+                  },
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "Person",
+                  "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                  "name": "Palash",
+                  "url": "https://rutherfordchiropractic.com/author/palashseo/"
+                },
+                {
+                  "@type": "BlogPosting",
+                  "headline": "Fibromyalgia Relief Options With Chiropractic Care",
+                  "datePublished": "2026-09-14T17:00:00+00:00",
+                  "dateModified": "2026-09-14T17:00:00+00:00",
+                  "articleSection": "Chiropractic Care",
+                  "author": {
+                    "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                    "name": "Palash"
+                  },
+                  "publisher": {
+                    "@id": "https://rutherfordchiropractic.com/#person"
+                  },
+                  "description": "Explore non-invasive options for fibromyalgia treatment in Murfreesboro, including chiropractic care focused on spine, joint, and nerve support",
+                  "name": "Fibromyalgia Relief Options With Chiropractic Care",
+                  "@id": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/#richSnippet",
+                  "isPartOf": {
+                    "@id": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/#webpage"
+                  },
+                  "image": {
+                    "@id": "https://rutherfordchiropractic.com/media/blog/fibromyalgia-relief-options-with-chiropractic-care-featured.png"
+                  },
+                  "inLanguage": "en-US",
+                  "mainEntityOfPage": {
+                    "@id": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/#webpage"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
       {
         "path": "/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
         "url": "https://rutherfordchiropractic.com/7-day-home-plan-for-chronic-pain-relief-in-murfreesboro/",
