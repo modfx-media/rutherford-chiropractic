@@ -2,15 +2,15 @@
   "generatedAt": "2026-07-28T21:30:22.576Z",
   "origin": "https://rutherfordchiropractic.com",
   "totals": {
-    "all": 151,
+    "all": 152,
     "home": 1,
     "core-service": 7,
     "utility": 4,
     "location-landing": 69,
     "blog-index": 1,
-    "blog-post": 71,
+    "blog-post": 72,
     "other": 0,
-    "routes": 139
+    "routes": 140
   },
   "routes": [
     {
@@ -110,6 +110,111 @@
                 "inLanguage": "en-US",
                 "mainEntityOfPage": {
                   "@id": "https://rutherfordchiropractic.com/#webpage"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/",
+      "url": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/",
+      "lastmod": "2026-09-21T17:00:00+00:00",
+      "source": "post",
+      "category": "blog-post",
+      "fetchError": null,
+      "meta": {
+        "title": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+        "description": "Learn what happens during your first visit, including history, exam, and imaging when needed, for chiropractic care in Murfreesboro and pain relief plans",
+        "canonical": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/",
+        "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+        "openGraph": {
+          "title": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+          "description": "Learn what happens during your first visit, including history, exam, and imaging when needed, for chiropractic care in Murfreesboro and pain relief plans",
+          "image": "/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg",
+          "type": "article"
+        },
+        "twitter": {
+          "card": "summary_large_image"
+        },
+        "jsonLd": [
+          {
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": [
+                  "Person",
+                  "Organization"
+                ],
+                "@id": "https://rutherfordchiropractic.com/#person",
+                "name": "Chiropractic Murfreesboro TN"
+              },
+              {
+                "@type": "WebSite",
+                "@id": "https://rutherfordchiropractic.com/#website",
+                "url": "https://rutherfordchiropractic.com",
+                "name": "Chiropractic Murfreesboro TN",
+                "publisher": {
+                  "@id": "https://rutherfordchiropractic.com/#person"
+                },
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "ImageObject",
+                "@id": "https://rutherfordchiropractic.com/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg",
+                "url": "https://rutherfordchiropractic.com/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg",
+                "width": "2812",
+                "height": "1536",
+                "caption": "Woman with low back pain carrying a grocery bag",
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "WebPage",
+                "@id": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/#webpage",
+                "url": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/",
+                "name": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+                "datePublished": "2026-09-21T17:00:00+00:00",
+                "dateModified": "2026-09-21T17:00:00+00:00",
+                "isPartOf": {
+                  "@id": "https://rutherfordchiropractic.com/#website"
+                },
+                "primaryImageOfPage": {
+                  "@id": "https://rutherfordchiropractic.com/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg"
+                },
+                "inLanguage": "en-US"
+              },
+              {
+                "@type": "Person",
+                "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                "name": "Palash",
+                "url": "https://rutherfordchiropractic.com/author/palashseo/"
+              },
+              {
+                "@type": "BlogPosting",
+                "headline": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+                "datePublished": "2026-09-21T17:00:00+00:00",
+                "dateModified": "2026-09-21T17:00:00+00:00",
+                "articleSection": "Chiropractic Care",
+                "author": {
+                  "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                  "name": "Palash"
+                },
+                "publisher": {
+                  "@id": "https://rutherfordchiropractic.com/#person"
+                },
+                "description": "Learn what happens during your first visit, including history, exam, and imaging when needed, for chiropractic care in Murfreesboro and pain relief plans",
+                "name": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+                "@id": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/#richSnippet",
+                "isPartOf": {
+                  "@id": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/#webpage"
+                },
+                "image": {
+                  "@id": "https://rutherfordchiropractic.com/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg"
+                },
+                "inLanguage": "en-US",
+                "mainEntityOfPage": {
+                  "@id": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/#webpage"
                 }
               }
             ]
@@ -48833,6 +48938,111 @@
       }
     ],
     "blog-post": [
+      {
+        "path": "/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/",
+        "url": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/",
+        "lastmod": "2026-09-21T17:00:00+00:00",
+        "source": "post",
+        "category": "blog-post",
+        "fetchError": null,
+        "meta": {
+          "title": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+          "description": "Learn what happens during your first visit, including history, exam, and imaging when needed, for chiropractic care in Murfreesboro and pain relief plans",
+          "canonical": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/",
+          "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+          "openGraph": {
+            "title": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+            "description": "Learn what happens during your first visit, including history, exam, and imaging when needed, for chiropractic care in Murfreesboro and pain relief plans",
+            "image": "/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg",
+            "type": "article"
+          },
+          "twitter": {
+            "card": "summary_large_image"
+          },
+          "jsonLd": [
+            {
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": [
+                    "Person",
+                    "Organization"
+                  ],
+                  "@id": "https://rutherfordchiropractic.com/#person",
+                  "name": "Chiropractic Murfreesboro TN"
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://rutherfordchiropractic.com/#website",
+                  "url": "https://rutherfordchiropractic.com",
+                  "name": "Chiropractic Murfreesboro TN",
+                  "publisher": {
+                    "@id": "https://rutherfordchiropractic.com/#person"
+                  },
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "ImageObject",
+                  "@id": "https://rutherfordchiropractic.com/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg",
+                  "url": "https://rutherfordchiropractic.com/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg",
+                  "width": "2812",
+                  "height": "1536",
+                  "caption": "Woman with low back pain carrying a grocery bag",
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "WebPage",
+                  "@id": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/#webpage",
+                  "url": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/",
+                  "name": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+                  "datePublished": "2026-09-21T17:00:00+00:00",
+                  "dateModified": "2026-09-21T17:00:00+00:00",
+                  "isPartOf": {
+                    "@id": "https://rutherfordchiropractic.com/#website"
+                  },
+                  "primaryImageOfPage": {
+                    "@id": "https://rutherfordchiropractic.com/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg"
+                  },
+                  "inLanguage": "en-US"
+                },
+                {
+                  "@type": "Person",
+                  "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                  "name": "Palash",
+                  "url": "https://rutherfordchiropractic.com/author/palashseo/"
+                },
+                {
+                  "@type": "BlogPosting",
+                  "headline": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+                  "datePublished": "2026-09-21T17:00:00+00:00",
+                  "dateModified": "2026-09-21T17:00:00+00:00",
+                  "articleSection": "Chiropractic Care",
+                  "author": {
+                    "@id": "https://rutherfordchiropractic.com/author/palashseo/",
+                    "name": "Palash"
+                  },
+                  "publisher": {
+                    "@id": "https://rutherfordchiropractic.com/#person"
+                  },
+                  "description": "Learn what happens during your first visit, including history, exam, and imaging when needed, for chiropractic care in Murfreesboro and pain relief plans",
+                  "name": "What to Expect at a Chiropractic Evaluation in Murfreesboro",
+                  "@id": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/#richSnippet",
+                  "isPartOf": {
+                    "@id": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/#webpage"
+                  },
+                  "image": {
+                    "@id": "https://rutherfordchiropractic.com/media/blog/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro-featured.jpg"
+                  },
+                  "inLanguage": "en-US",
+                  "mainEntityOfPage": {
+                    "@id": "https://rutherfordchiropractic.com/what-to-expect-at-a-chiropractic-evaluation-in-murfreesboro/#webpage"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
       {
         "path": "/fibromyalgia-relief-options-with-chiropractic-care/",
         "url": "https://rutherfordchiropractic.com/fibromyalgia-relief-options-with-chiropractic-care/",
