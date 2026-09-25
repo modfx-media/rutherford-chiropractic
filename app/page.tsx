@@ -20,7 +20,7 @@ export default function Page() {
       <JsonLdBlocks blocks={jsonLdFor("/")} />
       <main>
         <Hero />
-        <section className="bg-white pt-16 pb-4">
+        <section className="bg-white pt-16 pb-4 ">
           <div className="container-wide">
             <CareSlider />
           </div>
