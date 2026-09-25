@@ -1,6 +1,7 @@
 import { metadataFor, jsonLdFor } from "../_lib/content-map";
 import { JsonLdBlocks } from "../_lib/JsonLdBlocks";
 import { ContactPage } from "../_ui/utility/ContactPage";
+import { getDisplayedGoogleReviews } from "@/lib/google-reviews";
 
 // Route: /contact-us/
 // Category: utility (Utility page)
@@ -9,11 +10,13 @@ import { ContactPage } from "../_ui/utility/ContactPage";
 
 export const metadata = metadataFor("/contact-us/");
 
-export default function Page() {
+export default async function Page() {
+  const { reviews } = await getDisplayedGoogleReviews();
+
   return (
     <>
       <JsonLdBlocks blocks={jsonLdFor("/contact-us/")} />
-      <ContactPage />
+      <ContactPage review={reviews[0] ?? null} />
     </>
   );
 }

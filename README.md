@@ -18,6 +18,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Google reviews
+
+Copy `.env.example` to `.env.local` and set a server-only `GOOGLE_PLACES_API_KEY`. `GOOGLE_PLACE_ID` is this clinic’s listing (`ChIJp1t3Lnb4Y4gRIkxhiYl6rTY`). Set the same two values on Vercel (Production + Preview) and redeploy. The key must never be `NEXT_PUBLIC_`.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More

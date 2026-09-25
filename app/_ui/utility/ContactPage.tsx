@@ -30,6 +30,7 @@
  */
 
 import type { SVGProps } from "react";
+import type { GoogleReview } from "@/lib/reviews";
 import { businessInfo } from "../nav";
 import { MailIcon, MapPinIcon, PhoneIcon } from "../icons";
 import { Reveal } from "../motion/primitives";
@@ -95,7 +96,7 @@ const NAP_ROWS: Array<{
   },
 ];
 
-export function ContactPage() {
+export function ContactPage({ review }: { review?: GoogleReview | null }) {
   return (
     <main>
       <UtilityHero
@@ -147,9 +148,11 @@ export function ContactPage() {
                 </div>
               </Reveal>
 
-              <Reveal delay={0.05}>
-                <GoogleTestimonialCard />
-              </Reveal>
+              {review ? (
+                <Reveal delay={0.05}>
+                  <GoogleTestimonialCard review={review} />
+                </Reveal>
+              ) : null}
 
               <Reveal delay={0.1}>
                 <FinancingOptions variant="compact" />
@@ -368,14 +371,9 @@ function LockIcon() {
   );
 }
 
-/**
- * <GoogleTestimonialCard> — patient testimonial styled to visually match
- * the familiar Google Business Profile review card (colored G mark, 5
- * gold stars, quote, reviewer initial avatar, "Posted on Google" caption).
- * Copy praises Dr. Wesley Stewart for spinal decompression / back-pain
- * relief — matching two of the site's listed service pages.
- */
-function GoogleTestimonialCard() {
+function GoogleTestimonialCard({ review }: { review: GoogleReview }) {
+  const initial = review.name.trim().charAt(0).toUpperCase() || "?";
+
   return (
     <div className="surface-card flex h-full flex-col bg-white p-7">
       <div className="flex items-center justify-between">
@@ -386,7 +384,7 @@ function GoogleTestimonialCard() {
           </span>
         </div>
         <span className="text-[11px] font-medium text-[color:var(--color-muted)]">
-          Verified Patient
+          Posted on Google
         </span>
       </div>
 
@@ -400,23 +398,20 @@ function GoogleTestimonialCard() {
       </div>
 
       <blockquote className="mt-4 text-sm leading-relaxed text-[color:var(--color-body)]">
-        &ldquo;After years of chronic lower back pain, Dr. Wesley Stewart&rsquo;s
-        spinal decompression treatment gave me my life back. The whole team is
-        genuinely caring, and the non&#8209;invasive approach worked when
-        nothing else did. I can walk, sleep, and play with my kids again —
-        highly recommend Rutherford Spine &amp; Wellness Center!&rdquo;
+        &ldquo;{review.quote}&rdquo;
       </blockquote>
 
       <div className="mt-auto flex items-center gap-3 pt-6">
         <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[color:var(--color-brand-blue)] text-sm font-bold text-white">
-          S
+          {initial}
         </div>
         <div className="min-w-0">
           <p className="text-sm font-bold text-[color:var(--color-brand-navy)]">
-            Sarah M.
+            {review.name}
           </p>
           <p className="text-[11px] text-[color:var(--color-muted)]">
-            Posted on Google &middot; 2 months ago
+            Posted on Google
+            {review.relativeTime ? ` \u00b7 ${review.relativeTime}` : ""}
           </p>
         </div>
       </div>

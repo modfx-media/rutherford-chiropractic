@@ -1,142 +1,47 @@
 /**
  * <ReviewsSection> — homepage social-proof strip styled to visually match
- * a row of Google Business Profile reviews (colored G mark, 5 gold stars,
+ * a row of Google Business Profile reviews (colored G mark, gold stars,
  * quote body, reviewer initial avatar, "Posted on Google" caption).
  *
- * Auto-scrolls horizontally as a seamless CSS `@keyframes` marquee
- * (`.reviews-marquee` in `globals.css`) — the track element renders the
- * review list TWICE back-to-back and translates 0 → -50% so it loops
- * without a visible seam. Pauses on hover so anyone reading a review can
- * finish it. Deliberately avoids `requestAnimationFrame`-driven
- * `scrollLeft` autoplay (see `conditions-carousel-gotchas.md` — that
- * approach fights CSS scroll-snap + `scroll-smooth` and freezes silently);
- * a pure CSS marquee sidesteps all of those pitfalls.
- *
- * 11 patient testimonials sourced from real Google reviews of Rutherford
- * Spine and Wellness Center — each preserved close to verbatim (minor
- * typo fixes and Google UI-cruft trimming only) and rendered with the
- * component's hard-coded 5-star rating.
+ * Live 5-star written reviews for this clinic's Place ID only. Auto-scrolls
+ * as a seamless CSS `@keyframes` marquee (`.reviews-marquee` in
+ * `globals.css`). Hides entirely when Places returns no qualifying quotes.
  */
 
+import { getDisplayedGoogleReviews } from "@/lib/google-reviews";
+import type { GoogleReview, GoogleReviewsMeta } from "@/lib/reviews";
+import { businessInfo } from "../nav";
 import { Reveal } from "../motion/primitives";
 
-type Review = {
-  name: string;
-  initial: string;
-  service: string;
-  date: string;
-  quote: string;
-  /** Solid Tailwind bg color class for the initial-avatar circle so the
-      row of cards has a small pop of variety instead of every avatar
-      looking identical. */
-  avatarColor: string;
-};
+const AVATAR_COLORS = [
+  "bg-[color:var(--color-brand-blue)]",
+  "bg-[#EA4335]",
+  "bg-[#34A853]",
+  "bg-[color:var(--color-brand-orange)]",
+  "bg-[#FBBC05]",
+] as const;
 
-const REVIEWS: Review[] = [
-  {
-    name: "Brenda Hathaway",
-    initial: "B",
-    service: "Rehabilitation",
-    date: "4 months ago",
-    quote:
-      "Before I came to Rutherford Spine and Wellness Center I was in serious excruciating pain with my condition and just 2 days in, my condition is getting better already. Mr. Stewart and the ladies in the back are the best at what they do and I would recommend this place of business to anyone for services and rehabilitation. Keep up the excellent work. Thanks for ALL that you do to make everyone feel, do and be better.",
-    avatarColor: "bg-[color:var(--color-brand-blue)]",
-  },
-  {
-    name: "Deborah Newsom",
-    initial: "D",
-    service: "New Patient Care",
-    date: "4 months ago",
-    quote:
-      "At consultation Dr. Stewart was very detailed in explaining x-ray findings & creating the care plan. The staff was friendly from the front desk & all through out the process.",
-    avatarColor: "bg-[#EA4335]",
-  },
-  {
-    name: "Belinda Carney",
-    initial: "B",
-    service: "Spinal Care",
-    date: "7 months ago",
-    quote:
-      "Thank you for being the best I've had dealing with my spine. When I say that this is a wonderful place to go — the secretary, nurses and the doctor Mr. Stewart are all loving gifts from God. I pray God bless them all to continue with that blessing in the name of Jesus 🙏🏼🫶🏻💕 Amen!!!",
-    avatarColor: "bg-[#34A853]",
-  },
-  {
-    name: "Nancy Ferrell",
-    initial: "N",
-    service: "Chronic Pain Relief",
-    date: "a year ago",
-    quote:
-      "The office staff was very nice and friendly and made you feel comfortable. Dr. Stewart was very friendly and professional, and so were his technicians!!! I was completely at ease during the whole experience. After I got home, I did my ice pack 20 minutes on and 40 minutes off and I am already feeling better, which is totally amazing because I've been in so much pain for 2 1/2 years without any help from others. If this continues to help me, I will be totally amazed by the whole experience. So for the first time, I'm optimistic!!! 🙏🏻😃",
-    avatarColor: "bg-[color:var(--color-brand-orange)]",
-  },
-  {
-    name: "Ross Jaramillo",
-    initial: "R",
-    service: "Chiropractic Care",
-    date: "6 months ago",
-    quote:
-      "I really enjoyed my time and getting to know the staff. They were very professional, very clean and organized. Would definitely recommend visiting. I am an owner of a business and I pay attention to detail, and they clearly are a professional company.",
-    avatarColor: "bg-[#FBBC05]",
-  },
-  {
-    name: "Susan Van Blarcom-Young",
-    initial: "S",
-    service: "Back Pain Relief",
-    date: "a year ago",
-    quote:
-      "I have been a patient of this clinic for many years after I had a lower back injury. By continuing my monthly adjustments, I no longer experience debilitating back episodes. The staff is friendly and accommodating to any schedule changes, and Dr. Stewart is wonderful and caring.",
-    avatarColor: "bg-[color:var(--color-brand-blue)]",
-  },
-  {
-    name: "Kathleen Atwood",
-    initial: "K",
-    service: "Chiropractic Care",
-    date: "2 years ago",
-    quote:
-      "Dr. Stewart does everything he can to get his patients feeling better. He really cares and listens to what you have to say. The girls in the front office are very friendly, welcoming and efficient. Jennifer and Alexis do a great job and take good care of their patients in a fun and efficient manner. I would highly recommend this office to anyone in pain.",
-    avatarColor: "bg-[#EA4335]",
-  },
-  {
-    name: "Donald Craft",
-    initial: "D",
-    service: "Chiropractic Adjustments",
-    date: "3 months ago",
-    quote:
-      "Dr. Stewart and staff always provide excellent care when I get adjusted!",
-    avatarColor: "bg-[#34A853]",
-  },
-  {
-    name: "Kaylen Hartman",
-    initial: "K",
-    service: "New Patient Care",
-    date: "a year ago",
-    quote:
-      "Entire staff was kind, helpful and made my first experience wonderful. Mr. Stewart was very knowledgeable and compassionate through the entire process of what I need to do to have a full recovery. I will be a lifetime member!",
-    avatarColor: "bg-[color:var(--color-brand-orange)]",
-  },
-  {
-    name: "Danielle Campbell",
-    initial: "D",
-    service: "Spinal Decompression",
-    date: "a year ago",
-    quote:
-      "Dr. Stewart and his team are wonderful!! I went from miserable pain 24/7 to hardly any pain at all. No surgery & no medication. Words can not explain the difference. He and his lovely staff are always so kind and helpful. 🧡 Truly a blessing for me to find them.",
-    avatarColor: "bg-[#FBBC05]",
-  },
-  {
-    name: "Kimberly",
-    initial: "K",
-    service: "Chiropractic Care",
-    date: "4 months ago",
-    quote:
-      "Great! I love the experience! Very honest! Well worth the visit!",
-    avatarColor: "bg-[color:var(--color-brand-blue)]",
-  },
-];
+export async function ReviewsSection() {
+  const { reviews, meta } = await getDisplayedGoogleReviews();
+  if (reviews.length === 0) return null;
+  return <ReviewsView reviews={reviews} meta={meta} />;
+}
 
-export function ReviewsSection() {
-  // Duplicate the list so the marquee loop is seamless (translates 0 → -50%).
-  const doubled = [...REVIEWS, ...REVIEWS];
+function ReviewsView({
+  reviews,
+  meta,
+}: {
+  reviews: GoogleReview[];
+  meta: GoogleReviewsMeta;
+}) {
+  const doubled = [...reviews, ...reviews];
+  const reviewsUrl = meta.reviewsUrl || businessInfo.googleReviewsUrl;
+  const ratingLabel =
+    meta.rating != null ? meta.rating.toFixed(1) : null;
+  const countLabel =
+    meta.reviewCount != null
+      ? `${meta.reviewCount.toLocaleString()} Google reviews`
+      : "Google reviews";
 
   return (
     <section id="reviews" className="section-y bg-white relative overflow-hidden scroll-mt-24">
@@ -170,13 +75,23 @@ export function ReviewsSection() {
                     {Array.from({ length: 5 }).map((_, i) => (
                       <StarIcon key={i} />
                     ))}
-                    <span className="ml-2 text-sm font-bold text-[color:var(--color-brand-navy)]">
-                      5.0
-                    </span>
+                    {ratingLabel ? (
+                      <span className="ml-2 text-sm font-bold text-[color:var(--color-brand-navy)]">
+                        {ratingLabel}
+                      </span>
+                    ) : null}
                   </div>
                   <p className="mt-0.5 text-xs text-[color:var(--color-muted)]">
-                    Based on real Google reviews
+                    Based on {countLabel}
                   </p>
+                  <a
+                    href={reviewsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 inline-block text-xs font-semibold text-[color:var(--color-brand-blue)] underline-offset-2 hover:underline"
+                  >
+                    View all Google reviews
+                  </a>
                 </div>
               </div>
             </div>
@@ -184,11 +99,7 @@ export function ReviewsSection() {
         </div>
       </div>
 
-      {/* Marquee track — full-bleed so cards drift off the edges cleanly.
-          The parent group class enables the hover-pause behavior. */}
       <div className="reviews-marquee-group mt-12 relative">
-        {/* Edge fade masks so cards fade into the section background at
-            both sides rather than getting hard-clipped by the viewport. */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent sm:w-24"
@@ -199,8 +110,12 @@ export function ReviewsSection() {
         />
 
         <div className="reviews-marquee flex w-max gap-5 pr-5">
-          {doubled.map((r, i) => (
-            <ReviewCard key={`${r.name}-${i}`} review={r} />
+          {doubled.map((review, i) => (
+            <ReviewCard
+              key={`${review.name}-${i}`}
+              review={review}
+              avatarColor={AVATAR_COLORS[i % AVATAR_COLORS.length]}
+            />
           ))}
         </div>
       </div>
@@ -208,18 +123,21 @@ export function ReviewsSection() {
   );
 }
 
-function ReviewCard({ review }: { review: Review }) {
+function ReviewCard({
+  review,
+  avatarColor,
+}: {
+  review: GoogleReview;
+  avatarColor: string;
+}) {
+  const initial = review.name.trim().charAt(0).toUpperCase() || "?";
+
   return (
     <article className="surface-card flex w-[320px] shrink-0 flex-col bg-white p-6 sm:w-[360px] sm:p-7">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <GoogleGMark />
-          <span className="text-sm font-semibold text-[color:var(--color-brand-navy)]">
-            Google Review
-          </span>
-        </div>
-        <span className="rounded-full bg-[color:var(--color-brand-orange)]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[color:var(--color-brand-orange)]">
-          {review.service}
+      <div className="flex items-center gap-2">
+        <GoogleGMark />
+        <span className="text-sm font-semibold text-[color:var(--color-brand-navy)]">
+          Google Review
         </span>
       </div>
 
@@ -238,16 +156,17 @@ function ReviewCard({ review }: { review: Review }) {
 
       <div className="mt-auto flex items-center gap-3 pt-6">
         <div
-          className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold text-white ${review.avatarColor}`}
+          className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold text-white ${avatarColor}`}
         >
-          {review.initial}
+          {initial}
         </div>
         <div className="min-w-0">
           <p className="text-sm font-bold text-[color:var(--color-brand-navy)]">
             {review.name}
           </p>
           <p className="text-[11px] text-[color:var(--color-muted)]">
-            Posted on Google &middot; {review.date}
+            Posted on Google
+            {review.relativeTime ? ` \u00b7 ${review.relativeTime}` : ""}
           </p>
         </div>
       </div>
