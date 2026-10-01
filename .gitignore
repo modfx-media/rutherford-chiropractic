@@ -40,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# payload local uploads
+/media
+
+# generated CMS export (recreate with npm run cms:export)
+/data/content-export.json

@@ -6,14 +6,30 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "payload": "payload",
+    "generate:importmap": "payload generate:importmap",
+    "generate:types": "payload generate:types",
+    "cms:export": "tsx --tsconfig tsconfig.json scripts/cms-export.ts",
+    "cms:import": "tsx --tsconfig tsconfig.json scripts/cms-import.ts",
+    "cms:validate-export": "tsx --tsconfig tsconfig.json scripts/cms-validate-export.ts"
   },
   "dependencies": {
+    "@payloadcms/db-vercel-postgres": "3.90.2",
+    "@payloadcms/live-preview-react": "3.90.2",
+    "@payloadcms/next": "3.90.2",
+    "@payloadcms/plugin-seo": "3.90.2",
+    "@payloadcms/richtext-lexical": "3.90.2",
+    "@payloadcms/storage-vercel-blob": "3.90.2",
     "@vercel/blob": "^2.8.0",
     "framer-motion": "^12.43.0",
+    "graphql": "^16.11.0",
     "next": "16.2.12",
+    "payload": "3.90.2",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "sass": "^1.93.2",
+    "sharp": "^0.34.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -21,9 +37,11 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "cheerio": "^1.2.0",
+    "dotenv": "^18.0.5",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

@@ -25,8 +25,14 @@ import {
 } from "../../_lib/blog";
 import { CalendarIcon, ClockIcon, TagIcon } from "../icons";
 
-export function BlogPostTemplate({ post }: { post: BlogPostMeta }) {
-  const bodyHtml = getBlogBodyHtml(post.slug);
+export function BlogPostTemplate({
+  post,
+  bodyHtml: bodyOverride,
+}: {
+  post: BlogPostMeta;
+  bodyHtml?: string;
+}) {
+  const bodyHtml = bodyOverride ?? getBlogBodyHtml(post.slug);
   const related = getRelatedPosts(post.slug, post.category, 3);
   const readingTime = getReadingTime(bodyHtml);
 
