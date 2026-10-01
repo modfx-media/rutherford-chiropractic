@@ -20,25 +20,25 @@ export function DoctorSnippet() {
     <section className="section-y-sm bg-[color:var(--color-surface-muted)]" aria-label="Meet your chiropractor">
       <div className="container-content">
         <div className="surface-card overflow-hidden bg-white p-6 sm:p-8 lg:p-10">
-          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr] lg:gap-12">
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr] lg:gap-14">
             {/* Headshot */}
             <Reveal as="div" className="mx-auto lg:mx-0">
-              <div className="relative mx-auto h-32 w-32 shrink-0 sm:h-36 sm:w-36">
+              <div className="relative mx-auto h-48 w-48 shrink-0 sm:h-56 sm:w-56 lg:h-64 lg:w-64">
                 <Image
                   src="/media/dr-wesley-stewart.jpeg"
                   alt="Dr. Wesley Stewart, DC"
                   fill
-                  sizes="(min-width: 640px) 144px, 128px"
+                  sizes="(min-width: 1024px) 256px, (min-width: 640px) 224px, 192px"
                   className="rounded-full object-cover shadow-[var(--shadow-elevated)] ring-4 ring-white"
                 />
-                <span className="absolute -bottom-2 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full bg-[color:var(--color-brand-orange)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-white shadow-[var(--shadow-card)] whitespace-nowrap">
+                <span className="absolute -bottom-2 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full bg-[color:var(--color-brand-orange)] px-3 py-1 text-xs font-bold uppercase tracking-[0.1em] text-white shadow-[var(--shadow-card)] whitespace-nowrap">
                   29+ Years
                 </span>
               </div>
             </Reveal>
 
             {/* Copy */}
-            <div className="min-w-0 text-center lg:text-left">
+            <div className="min-w-0 text-center lg:text-left lg:self-center">
               <Reveal delay={0.05} as="div">
                 <span className="eyebrow">Your Provider</span>
                 <h2 className="h-section mt-2 !text-2xl sm:!text-3xl">
