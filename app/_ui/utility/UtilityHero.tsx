@@ -1,6 +1,6 @@
 /**
  * <UtilityHero> — shared dark hero for the 4 utility pages (`/contact-us/`,
- * `/financing/`, `/new-patients/`, `/new-patient-forms/`). Mirrors
+ * `/financing/`, `/new-patients/`). Mirrors
  * `ServiceHero`/`ConditionHero`'s dark radial-glow hero (breadcrumb + H1 +
  * subtitle, no image) so these pages read as a natural extension of the
  * rest of the site rather than a bolted-on template.

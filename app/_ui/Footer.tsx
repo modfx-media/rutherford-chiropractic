@@ -39,7 +39,6 @@ const quickLinks = [
   { label: "Home", href: "/" },
   { label: "Areas We Serve", href: "/areas-we-serve/" },
   { label: "New Patients", href: "/new-patients/" },
-  { label: "New Patient Forms", href: "/new-patient-forms/" },
   { label: "Financing", href: "/financing/" },
   { label: "Contact Us", href: "/contact-us/" },
   { label: "Blog", href: "/blog/" },

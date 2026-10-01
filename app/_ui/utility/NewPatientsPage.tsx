@@ -57,22 +57,6 @@ export function NewPatientsPage() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.05}>
-            <div className="hover-lift surface-card mx-auto mt-10 flex max-w-3xl flex-col items-center gap-4 bg-white p-6 text-center sm:flex-row sm:justify-between sm:text-left lg:p-7">
-              <div>
-                <h3 className="text-lg font-bold text-[color:var(--color-brand-navy)]">
-                  Save Time At Your First Visit
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-[color:var(--color-body)]">
-                  Download and complete your new patient forms ahead of time, then bring or fax
-                  them in before your appointment.
-                </p>
-              </div>
-              <Link href="/new-patient-forms/" className="btn btn-outline-orange shrink-0">
-                New Patient Forms
-              </Link>
-            </div>
-          </Reveal>
 
           <Stagger as="ul" className="mx-auto mt-14 max-w-3xl space-y-8">
             {STEPS.map((step, i) => (
