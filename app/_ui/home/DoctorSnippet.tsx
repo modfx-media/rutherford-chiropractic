@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Reveal, Stagger, StaggerItem } from "../motion/primitives";
 import { CalendarIcon, PhoneIcon } from "../icons";
@@ -5,11 +6,6 @@ import { businessInfo } from "../nav";
 
 /**
  * DoctorSnippet — "Meet Your Chiropractor" homepage introduction card.
- *
- * No dedicated headshot of Dr. Stewart exists in the scraped source site
- * (only generic clinic/office photography), so the visual is a brand-styled
- * avatar badge (initials + icon) rather than mislabeling a room photo as a
- * portrait — swap in a real headshot `<Image>` here if/when one is supplied.
  *
  * Bio facts (29 years, "Whole-Person Approach", Murfreesboro) are the same
  * verified facts already used verbatim in `About.tsx`; the copy here is a
@@ -25,12 +21,16 @@ export function DoctorSnippet() {
       <div className="container-content">
         <div className="surface-card overflow-hidden bg-white p-6 sm:p-8 lg:p-10">
           <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr] lg:gap-12">
-            {/* Avatar badge */}
+            {/* Headshot */}
             <Reveal as="div" className="mx-auto lg:mx-0">
               <div className="relative mx-auto h-32 w-32 shrink-0 sm:h-36 sm:w-36">
-                <div className="grid h-full w-full place-items-center rounded-full bg-gradient-to-br from-[color:var(--color-brand-blue)] to-[color:var(--color-brand-navy)] text-3xl font-extrabold text-white shadow-[var(--shadow-elevated)] ring-4 ring-white">
-                  WS
-                </div>
+                <Image
+                  src="/media/dr-wesley-stewart.jpeg"
+                  alt="Dr. Wesley Stewart, DC"
+                  fill
+                  sizes="(min-width: 640px) 144px, 128px"
+                  className="rounded-full object-cover shadow-[var(--shadow-elevated)] ring-4 ring-white"
+                />
                 <span className="absolute -bottom-2 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full bg-[color:var(--color-brand-orange)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-white shadow-[var(--shadow-card)] whitespace-nowrap">
                   29+ Years
                 </span>
