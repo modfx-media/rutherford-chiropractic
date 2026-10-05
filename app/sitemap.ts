@@ -4,6 +4,7 @@ import { CONDITIONS } from "./_lib/conditions";
 import { PSEO_COMBINATIONS } from "./_lib/pseo/combinations";
 import { PSEO_AUDIENCE_COMBINATIONS } from "./_lib/pseo/audience-content";
 import { getPublishedBlogSlugs } from "@/lib/ranked/posts";
+import { getSitemapOverrides } from "@/lib/cms/sitemap";
 
 /**
  * Emits `/sitemap.xml` containing every URL from the original WordPress
@@ -75,5 +76,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...migrated, ...conditions, ...pseo, ...pseoAudience, ...areasWeServe, ...ranked];
+  const entries = [...migrated, ...conditions, ...pseo, ...pseoAudience, ...areasWeServe, ...ranked]
+  const overrides = await getSitemapOverrides()
+
+  return entries.flatMap((entry) => {
+    const override = overrides.get(entry.url)
+    if (override?.exclude) return []
+    const lastModified =
+      override?.lastModified ??
+      ("lastModified" in entry ? entry.lastModified : undefined)
+    return [
+      {
+        ...entry,
+        lastModified,
+      },
+    ]
+  })
 }

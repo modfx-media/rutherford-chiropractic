@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
   // The live WordPress site indexes every URL with a trailing slash
@@ -16,6 +17,12 @@ const nextConfig: NextConfig = {
   outputFileTracingExcludes: {
     "*": ["./public/images/**", "./public/**/*.mp4", "./public/**/*.webm"],
   },
+  serverExternalPackages: [
+    "pg",
+    "@payloadcms/db-vercel-postgres",
+    "@neondatabase/serverless",
+    "@vercel/postgres",
+  ],
 };
 
-export default nextConfig;
+export default withPayload(nextConfig, { devBundleServerPackages: false });
