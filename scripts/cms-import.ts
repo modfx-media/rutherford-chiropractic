@@ -53,7 +53,7 @@ async function findExisting(payload: Payload, record: ExportRecord) {
 }
 
 async function upsertRecord(payload: Payload, record: ExportRecord, apply: boolean) {
-  const data = {
+  const data: Record<string, unknown> = {
     ...(skipRef(record.data) as Record<string, unknown>),
     _status: "draft",
   };
@@ -69,8 +69,8 @@ async function upsertRecord(payload: Payload, record: ExportRecord, apply: boole
   if (existing) {
     await payload.update({
       collection: record.collection,
-      id: existing.id as string,
-      data,
+      id: existing.id,
+      data: data as never,
       draft: true,
       overrideAccess: true,
     });
@@ -78,7 +78,7 @@ async function upsertRecord(payload: Payload, record: ExportRecord, apply: boole
   }
   await payload.create({
     collection: record.collection,
-    data,
+    data: data as never,
     draft: true,
     overrideAccess: true,
   });

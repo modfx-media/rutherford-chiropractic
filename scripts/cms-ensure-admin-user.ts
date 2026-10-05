@@ -53,7 +53,7 @@ async function main() {
   if (found.docs[0]) {
     await payload.update({
       collection: "users",
-      id: found.docs[0].id as string,
+      id: found.docs[0].id,
       data: { password, name: "Admin" },
       overrideAccess: true,
     });
