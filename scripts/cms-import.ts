@@ -1,8 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import dotenv from "dotenv";
-import { getPayload } from "payload";
-import config from "../payload.config";
+import type { Payload } from "payload";
 import type { ContentExport, ExportRecord } from "./cms/inventory";
 
 dotenv.config({ path: ".env.local" });
@@ -26,10 +25,7 @@ function skipRef(value: unknown): unknown {
   return value;
 }
 
-async function findExisting(
-  payload: Awaited<ReturnType<typeof getPayload>>,
-  record: ExportRecord,
-) {
+async function findExisting(payload: Payload, record: ExportRecord) {
   const legacyId = typeof record.data.legacyId === "string" ? record.data.legacyId : record.legacyId;
   if (legacyId) {
     const byLegacy = await payload.find({
@@ -56,15 +52,15 @@ async function findExisting(
   return null;
 }
 
-async function upsertRecord(
-  payload: Awaited<ReturnType<typeof getPayload>>,
-  record: ExportRecord,
-  apply: boolean,
-) {
+async function upsertRecord(payload: Payload, record: ExportRecord, apply: boolean) {
   const data = {
     ...(skipRef(record.data) as Record<string, unknown>),
     _status: "draft",
   };
+  if (data.meta && typeof data.meta === "object") {
+    const meta = data.meta as Record<string, unknown>;
+    if (typeof meta.image === "string") delete meta.image;
+  }
   const existing = await findExisting(payload, record);
   if (!apply) {
     console.log(`${existing ? "update" : "create"} ${record.collection} ${record.data.path}`);
@@ -106,16 +102,23 @@ async function main() {
   }
 
   const exported = JSON.parse(fs.readFileSync(file, "utf8")) as ContentExport;
+  const { getPayload } = await import("payload");
+  const { default: config } = await import("../payload.config");
   const payload = await getPayload({ config });
 
   console.log(`${apply ? "Applying" : "Dry run"} ${exported.records.length} records as drafts`);
 
+  let done = 0;
   for (const record of exported.records) {
     try {
       await upsertRecord(payload, record, apply);
     } catch (error) {
-      console.error(`[cms:import] skipped ${record.collection} ${record.data.path}`, error);
+      const cause = error instanceof Error && error.cause instanceof Error ? error.cause.message : null;
+      const message = (cause || (error instanceof Error ? error.message : String(error))).split("\n")[0];
+      console.error(`[cms:import] skipped ${record.collection} ${record.data.path}: ${message}`);
     }
+    done += 1;
+    if (done % 100 === 0) console.log(`progress ${done}/${exported.records.length}`);
   }
 
   if (apply) {

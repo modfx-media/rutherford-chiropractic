@@ -1,4 +1,5 @@
 import { cmsPath, publicPath } from "./path";
+import { getServerURL } from "./url";
 
 /**
  * Live preview / admin preview URL. Returns null when path or slug is missing
@@ -24,5 +25,6 @@ export function previewFromPath(
   const dest = publicPath(resolved);
   if (!dest) return null;
 
-  return `/next/preview?path=${encodeURIComponent(dest)}&previewSecret=${encodeURIComponent(secret)}`;
+  const origin = getServerURL();
+  return `${origin}/next/preview?path=${encodeURIComponent(dest)}&previewSecret=${encodeURIComponent(secret)}`;
 }

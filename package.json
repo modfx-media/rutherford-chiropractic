@@ -8,10 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "payload": "payload",
-    "generate:importmap": "payload generate:importmap",
-    "generate:types": "payload generate:types",
+    "generate:importmap": "node scripts/run-cms.mjs scripts/cms-generate.ts importmap",
+    "generate:types": "node scripts/run-cms.mjs scripts/cms-generate.ts types",
     "cms:export": "tsx --tsconfig tsconfig.json scripts/cms-export.ts",
-    "cms:import": "tsx --tsconfig tsconfig.json scripts/cms-import.ts",
+    "cms:import": "node scripts/run-cms.mjs scripts/cms-import.ts",
+    "cms:bootstrap": "node scripts/run-cms.mjs scripts/cms-bootstrap.ts",
+    "cms:ensure-admin": "node scripts/run-cms.mjs scripts/cms-ensure-admin-user.ts",
     "cms:validate-export": "tsx --tsconfig tsconfig.json scripts/cms-validate-export.ts"
   },
   "dependencies": {
@@ -29,7 +31,11 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "sass": "^1.93.2",
-    "sharp": "^0.34.4"
+    "sharp": "0.34.5"
+  },
+  "optionalDependencies": {
+    "@img/sharp-linux-x64": "0.34.5",
+    "@img/sharp-libvips-linux-x64": "1.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -38,6 +44,7 @@
     "@types/react-dom": "^19",
     "cheerio": "^1.2.0",
     "dotenv": "^18.0.5",
+    "esbuild": "0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "tailwindcss": "^4",

@@ -47,7 +47,6 @@ function seoFromRoute(route?: RouteEntry | null, path?: string) {
     meta: {
       title: meta?.title ?? null,
       description: meta?.description ?? null,
-      image: meta?.openGraph?.image ?? null,
     },
   };
 }
