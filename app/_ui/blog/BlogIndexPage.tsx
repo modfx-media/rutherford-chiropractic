@@ -34,6 +34,7 @@ export function BlogIndexPage({ posts }: { posts: BlogPostMeta[] }) {
         h1="Our Blog"
         subtitle="Read our health blog for useful tips on healing back pain & staying active. Rutherford Spine & Wellness Center shares simple ways to improve your daily health."
         bgImage="/media/blog-banner.jpeg"
+        path="/blog/"
       />
 
       <section className="section-y">

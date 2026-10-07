@@ -24,6 +24,7 @@ import {
   type BlogPostMeta,
 } from "../../_lib/blog";
 import { CalendarIcon, ClockIcon, TagIcon } from "../icons";
+import { BreadcrumbSchema } from "../BreadcrumbSchema";
 
 export function BlogPostTemplate({
   post,
@@ -60,6 +61,13 @@ export function BlogPostTemplate({
         />
         <div className="container-content relative">
           <Reveal as="div">
+            <BreadcrumbSchema
+              items={[
+                { name: "Home", path: "/" },
+                { name: "Blog", path: "/blog/" },
+                { name: post.title, path: post.path },
+              ]}
+            />
             <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-white/60">
               <Link href="/" className="hover:text-white">
                 Home

@@ -31,6 +31,7 @@ export default function Page() {
         eyebrow="Service Area"
         h1="Areas We Serve"
         subtitle="Rutherford Spine & Wellness Center treats patients throughout Rutherford County and the wider Middle Tennessee region. Find condition-specific care information for your city below."
+        path="/areas-we-serve/"
       />
 
       <section className="section-y bg-white">

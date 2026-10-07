@@ -21,6 +21,7 @@ export function FinancingPage() {
         h1="Financing"
         subtitle="Three flexible ways to pay for the care you need — every plan interest-free when paid within the agreed term."
         bgImage="/media/financing-banner.jpg"
+        path="/financing/"
       />
 
       <section className="section-y bg-white">

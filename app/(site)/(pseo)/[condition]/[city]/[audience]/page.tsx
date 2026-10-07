@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JsonLdBlocks } from "../../../../../_lib/JsonLdBlocks";
-import { pseoMetadata, pseoJsonLd } from "../../../../../_lib/pseo/content";
+import { pseoMetadata, pseoJsonLd, enforcePseoIndexing } from "../../../../../_lib/pseo/content";
 import {
   buildPseoAudienceContent,
   getAllPseoAudienceParams,
@@ -32,10 +32,11 @@ export async function generateMetadata({
   const resolved = await params;
   const content = buildPseoAudienceContent(resolved);
   if (!content) return {};
-  return metadataWithCMS(
+  const meta = await metadataWithCMS(
     `/${resolved.condition}/${resolved.city}/${resolved.audience}/`,
     pseoMetadata(content),
   );
+  return enforcePseoIndexing(meta, content);
 }
 
 export default async function Page({

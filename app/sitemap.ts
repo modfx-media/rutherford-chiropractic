@@ -2,14 +2,16 @@ import type { MetadataRoute } from "next";
 import { ORIGIN, ROUTES } from "./_lib/content-map";
 import { CONDITIONS } from "./_lib/conditions";
 import { PSEO_COMBINATIONS } from "./_lib/pseo/combinations";
-import { PSEO_AUDIENCE_COMBINATIONS } from "./_lib/pseo/audience-content";
+import { getCustomPseoContent } from "./_lib/pseo/city-content";
 import { getPublishedBlogSlugs } from "@/lib/ranked/posts";
 import { getSitemapOverrides } from "@/lib/cms/sitemap";
 
 /**
- * Emits `/sitemap.xml` containing every URL from the original WordPress
- * page and post sitemaps, plus the new "Conditions" pages (a taxonomy that
- * doesn't exist on the live origin, so it isn't part of `content-map.json`).
+ * Single indexable sitemap at `/sitemap.xml`.
+ * Migrated WordPress page and post URLs stay here (they are real pages, not
+ * the old Yoast sitemap files). Condition × neighborhood URLs are included
+ * only when they have hand-written city copy. Fragment-only neighborhood
+ * pages and the audience cartesian product are noindex and omitted.
  * `lastModified` for migrated routes is taken from Yoast's original
  * `<lastmod>` timestamp so we don't reset freshness signals on migration.
  */
@@ -44,16 +46,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  const pseo = PSEO_COMBINATIONS.map((combo) => ({
+  const pseo = PSEO_COMBINATIONS.filter((combo) =>
+    getCustomPseoContent(combo.conditionSlug, combo.neighborhoodSlug),
+  ).map((combo) => ({
     url: `${ORIGIN}/${combo.conditionSlug}/${combo.neighborhoodSlug}/`,
     changeFrequency: "monthly" as const,
     priority: 0.6,
-  }));
-
-  const pseoAudience = PSEO_AUDIENCE_COMBINATIONS.map((combo) => ({
-    url: `${ORIGIN}/${combo.conditionSlug}/${combo.neighborhoodSlug}/${combo.audienceSlug}/`,
-    changeFrequency: "monthly" as const,
-    priority: 0.5,
   }));
 
   const areasWeServe = [
@@ -76,7 +74,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  const entries = [...migrated, ...conditions, ...pseo, ...pseoAudience, ...areasWeServe, ...ranked]
+  const entries = [...migrated, ...conditions, ...pseo, ...areasWeServe, ...ranked]
   const overrides = await getSitemapOverrides()
 
   return entries.flatMap((entry) => {

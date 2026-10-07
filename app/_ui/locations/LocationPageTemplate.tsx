@@ -30,6 +30,7 @@ import { heroBgForService } from "../../_lib/hero-images";
 import { ALL_SERVICE_LINKS } from "../../_lib/services";
 import { getAllLocationSlugs } from "../../_lib/locations";
 import type { LocationListBlock, LocationPageData, LocationReview } from "../../_lib/locations";
+import { BreadcrumbSchema } from "../BreadcrumbSchema";
 
 const SERVICE_LABELS: Record<string, string> = {
   chiropractic: "Chiropractic",
@@ -84,6 +85,13 @@ function LocationHero({
       />
       <div className="container-content relative">
         <Reveal as="div">
+          <BreadcrumbSchema
+            items={[
+              { name: "Home", path: "/" },
+              { name: serviceLabel, path: serviceHref },
+              { name: data.city, path: `/${data.slug}/` },
+            ]}
+          />
           <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-white/60">
             <Link href="/" className="hover:text-white">
               Home

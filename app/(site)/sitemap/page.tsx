@@ -45,6 +45,7 @@ export default function Page() {
         eyebrow="Site Directory"
         h1="Sitemap"
         subtitle="A full directory of every page on our website, organized by section. Looking for machines-readable data instead? See our XML sitemap."
+        path="/sitemap/"
       />
 
       <section className="section-y bg-white">

@@ -104,6 +104,7 @@ export function ContactPage({ review }: { review?: GoogleReview | null }) {
         h1="Contact Us"
         subtitle="Have a question or ready to schedule your visit? Reach out any way that works for you - our Murfreesboro team is here to help."
         bgImage="/media/contact-us-banner.avif"
+        path="/contact-us/"
       />
 
       <section id="schedule-form" className="section-y bg-white">

@@ -123,11 +123,29 @@ export function buildPseoContent(params: PseoPageParams): PseoPageContent | unde
   };
 }
 
+/**
+ * Audience pages are a full cartesian product of condition × city × job.
+ * Neighborhood pages without a hand-written `city-content.ts` entry are
+ * assembled from shared sentence fragments. Both are low-value programmatic
+ * URLs: noindex them and keep them out of the sitemap. Hand-written
+ * condition × neighborhood pages stay indexable.
+ */
+export function isIndexablePseoPage(content: PseoPageContent): boolean {
+  if (content.audienceLabel) return false;
+  return Boolean(getCustomPseoContent(content.condition.slug, content.neighborhood.slug));
+}
+
+export function enforcePseoIndexing(meta: Metadata, content: PseoPageContent): Metadata {
+  if (isIndexablePseoPage(content)) return meta;
+  return { ...meta, robots: { index: false, follow: true } };
+}
+
 export function pseoMetadata(content: PseoPageContent): Metadata {
   return {
     title: content.metaTitle,
     description: content.metaDescription,
     alternates: { canonical: content.canonical },
+    robots: isIndexablePseoPage(content) ? undefined : { index: false, follow: true },
     openGraph: {
       title: content.metaTitle,
       description: content.metaDescription,

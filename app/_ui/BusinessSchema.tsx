@@ -21,13 +21,14 @@ export async function BusinessSchema() {
     alternateName: "Rutherford Spine and Wellness",
     url: "https://rutherfordchiropractic.com/",
     telephone: "+16152170097",
+    faxNumber: "+16158480038",
     email: businessInfo.email,
     image: "https://rutherfordchiropractic.com/brand/rutherford-logo.png",
     logo: "https://rutherfordchiropractic.com/brand/rutherford-logo.png",
     priceRange: "$$",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "1139 NW Broad St #103",
+      streetAddress: businessInfo.address.line1,
       addressLocality: "Murfreesboro",
       addressRegion: "TN",
       postalCode: "37129",
@@ -51,8 +52,14 @@ export async function BusinessSchema() {
         opens: "08:00",
         closes: "12:00",
       },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Saturday", "Sunday"],
+        opens: "00:00",
+        closes: "00:00",
+      },
     ],
-    sameAs: [businessInfo.facebookUrl],
+    sameAs: [businessInfo.facebookUrl, businessInfo.googleReviewsUrl],
   };
 
   if (meta.rating != null && meta.reviewCount != null) {
