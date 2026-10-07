@@ -10,17 +10,20 @@ import Link from "next/link";
 import { Reveal } from "../motion/primitives";
 import { HeroBgImage } from "../HeroBgImage";
 import { DEFAULT_HERO_BG } from "../../_lib/hero-images";
+import { BreadcrumbSchema } from "../BreadcrumbSchema";
 
 export function UtilityHero({
   eyebrow,
   h1,
   subtitle,
   bgImage,
+  path,
 }: {
   eyebrow: string;
   h1: string;
   subtitle?: string;
   bgImage?: string;
+  path: string;
 }) {
   return (
     <section className="surface-dark relative isolate overflow-hidden pt-14 pb-8 sm:pt-20 sm:pb-10 lg:pt-28 lg:pb-14">
@@ -35,6 +38,12 @@ export function UtilityHero({
       />
       <div className="container-content relative">
         <Reveal as="div">
+          <BreadcrumbSchema
+            items={[
+              { name: "Home", path: "/" },
+              { name: h1, path },
+            ]}
+          />
           <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-white/60">
             <Link href="/" className="hover:text-white">
               Home

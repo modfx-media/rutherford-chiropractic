@@ -30,6 +30,22 @@ export function proxy(request: NextRequest) {
     return response;
   }
 
+  if (isProductionSiteHost(hostname)) {
+    const apexOrigin = `https://${siteApex()}`;
+    const proto = (request.headers.get("x-forwarded-proto") ?? "")
+      .split(",")[0]
+      ?.trim()
+      .toLowerCase();
+    const isWww = hostname.startsWith("www.");
+    const isInsecure = proto === "http";
+    const legacyHome = pathname === "/home.html" || pathname === "/home.html/";
+
+    if (legacyHome || isWww || isInsecure) {
+      const destPath = legacyHome ? "/" : pathname;
+      return NextResponse.redirect(new URL(`${destPath}${search}`, apexOrigin), 301);
+    }
+  }
+
   if (
     isProductionSiteHost(hostname) &&
     (pathname === "/admin" || pathname.startsWith("/admin/"))
@@ -51,6 +67,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|mp4|webm|txt|xml)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|mp4|webm)$).*)",
   ],
 };

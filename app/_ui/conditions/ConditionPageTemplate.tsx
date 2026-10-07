@@ -23,6 +23,7 @@ import { HeroBgImage } from "../HeroBgImage";
 import { heroBgForCondition } from "../../_lib/hero-images";
 import type { Condition } from "../../_lib/conditions";
 import { businessInfo } from "../nav";
+import { BreadcrumbSchema } from "../BreadcrumbSchema";
 
 export function ConditionPageTemplate({ condition }: { condition: Condition }) {
   return (
@@ -53,6 +54,13 @@ function ConditionHero({ condition }: { condition: Condition }) {
       />
       <div className="container-content relative">
         <Reveal as="div">
+          <BreadcrumbSchema
+            items={[
+              { name: "Home", path: "/" },
+              { name: "Conditions" },
+              { name: condition.name, path: `/${condition.slug}/` },
+            ]}
+          />
           <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-white/60">
             <Link href="/" className="hover:text-white">Home</Link>
             <span aria-hidden>/</span>

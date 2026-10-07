@@ -17,6 +17,7 @@ import { formatBlogDate, getBlogPost, getReadingTime } from "../../_lib/blog"
 import { rankedPostToMeta } from "../../_lib/ranked-blog"
 import { CalendarIcon, ClockIcon, TagIcon } from "../icons"
 import type { BlogPostData } from "@/lib/ranked/types"
+import { BreadcrumbSchema } from "../BreadcrumbSchema"
 
 function MarkdownText({ text }: { text: string }) {
   const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g)
@@ -76,6 +77,13 @@ export function RankedBlogPostTemplate({ post }: { post: BlogPostData }) {
         />
         <div className="container-content relative">
           <Reveal as="div">
+            <BreadcrumbSchema
+              items={[
+                { name: "Home", path: "/" },
+                { name: "Blog", path: "/blog/" },
+                { name: post.title, path: `/blog/${post.slug}/` },
+              ]}
+            />
             <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-white/60">
               <Link href="/" className="hover:text-white">
                 Home

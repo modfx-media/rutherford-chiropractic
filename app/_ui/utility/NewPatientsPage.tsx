@@ -41,7 +41,7 @@ const STEPS = [
 export function NewPatientsPage() {
   return (
     <main>
-      <UtilityHero eyebrow="Welcome" h1="New Patients" />
+      <UtilityHero eyebrow="Welcome" h1="New Patients" path="/new-patients/" />
 
       <section className="section-y bg-white">
         <div className="container-content">

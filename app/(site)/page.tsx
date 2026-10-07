@@ -12,9 +12,26 @@ import { ReviewsSection } from "../_ui/home/ReviewsSection";
 import { FinancingOptions } from "../_ui/FinancingOptions";
 import { LocationMap } from "../_ui/home/LocationMap";
 import { metadataWithCMS } from "@/lib/cms/metadata";
+import { HOME_DESCRIPTION, HOME_TITLE } from "../_lib/home-meta";
 
 export async function generateMetadata() {
-  return metadataWithCMS("/");
+  const meta = await metadataWithCMS("/");
+  return {
+    ...meta,
+    title: { absolute: HOME_TITLE },
+    description: HOME_DESCRIPTION,
+    openGraph: {
+      ...meta.openGraph,
+      title: HOME_TITLE,
+      description: HOME_DESCRIPTION,
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      ...(meta.twitter && typeof meta.twitter === "object" ? meta.twitter : {}),
+      title: HOME_TITLE,
+      description: HOME_DESCRIPTION,
+    },
+  };
 }
 
 export default function Page() {

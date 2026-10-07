@@ -57,6 +57,7 @@ export function NewPatientFormsPage() {
         eyebrow="Paperwork"
         h1="New Patient Forms"
         subtitle="Complete your forms at home so your first visit starts on time."
+        path="/new-patient-forms/"
       />
 
       <section className="section-y bg-white">

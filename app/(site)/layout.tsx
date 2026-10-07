@@ -8,6 +8,7 @@ import { Footer } from "../_ui/Footer";
 import { BusinessSchema } from "../_ui/BusinessSchema";
 import { StickyBookBanner } from "../_ui/StickyBookBanner";
 import { ORIGIN, DEFAULT_OG_IMAGE } from "../_lib/content-map";
+import { HOME_DESCRIPTION, HOME_TITLE } from "../_lib/home-meta";
 import { CMSRoute } from "@/lib/cms/CMSRoute";
 
 const inter = Inter({
@@ -28,11 +29,10 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL(ORIGIN),
   title: {
-    default: "Rutherford Spine & Wellness Center | Chiropractor in Murfreesboro, TN",
+    default: HOME_TITLE,
     template: "%s | Rutherford Spine & Wellness Center",
   },
-  description:
-    "Rutherford Spine & Wellness Center helps you live a pain-free life. Find natural chiropractic care, spinal decompression, and neuropathy relief in Murfreesboro, TN.",
+  description: HOME_DESCRIPTION,
   openGraph: {
     siteName: "Rutherford Spine & Wellness Center",
     images: [DEFAULT_OG_IMAGE],

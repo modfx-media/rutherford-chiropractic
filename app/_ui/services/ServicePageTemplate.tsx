@@ -28,6 +28,7 @@ import { ServiceIcon } from "./icons";
 import { FaqAccordion } from "../conditions/FaqAccordion";
 import { HeroBgImage } from "../HeroBgImage";
 import { heroBgForService } from "../../_lib/hero-images";
+import { BreadcrumbSchema } from "../BreadcrumbSchema";
 import { getLocationsForService } from "../../_lib/locations";
 import type { ServicePageData, ServiceSection as ServiceSectionData } from "../../_lib/services";
 
@@ -70,6 +71,13 @@ function ServiceHero({ data }: { data: ServicePageData }) {
       />
       <div className="container-content relative">
         <Reveal as="div">
+          <BreadcrumbSchema
+            items={[
+              { name: "Home", path: "/" },
+              { name: "Services" },
+              { name: data.h1, path: `/${data.slug}/` },
+            ]}
+          />
           <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-white/60">
             <Link href="/" className="hover:text-white">
               Home

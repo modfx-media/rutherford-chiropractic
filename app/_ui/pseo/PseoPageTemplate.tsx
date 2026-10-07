@@ -17,6 +17,7 @@ import { HeroBgImage } from "../HeroBgImage";
 import { heroBgForService } from "../../_lib/hero-images";
 import type { PseoPageContent } from "../../_lib/pseo/content";
 import { businessInfo } from "../nav";
+import { BreadcrumbSchema } from "../BreadcrumbSchema";
 
 export function PseoPageTemplate({ content }: { content: PseoPageContent }) {
   return (
@@ -47,6 +48,16 @@ function PseoHero({ content }: { content: PseoPageContent }) {
       />
       <div className="container-content relative">
         <Reveal as="div">
+          <BreadcrumbSchema
+            items={[
+              { name: "Home", path: "/" },
+              { name: content.serviceLabel, path: content.pillarHref },
+              {
+                name: `${neighborhood.name}, ${neighborhood.cityName}${content.audienceLabel ? ` – ${content.audienceLabel}` : ""}`,
+                path: new URL(content.canonical).pathname,
+              },
+            ]}
+          />
           <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-white/60">
             <Link href="/" className="hover:text-white">Home</Link>
             <span aria-hidden>/</span>
