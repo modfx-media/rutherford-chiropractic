@@ -244,6 +244,9 @@ export interface Post {
   excerpt?: string | null;
   category?: string | null;
   publishedAt?: string | null;
+  /**
+   * Public image data ({ src, alt, width, height }). The featured image upload fills this in.
+   */
   featuredImage?:
     | {
         [k: string]: unknown;
@@ -253,6 +256,13 @@ export interface Post {
     | number
     | boolean
     | null;
+  /**
+   * Uploaded to Vercel Blob and shown on the article and blog card.
+   */
+  featuredUpload?: (number | null) | Media;
+  /**
+   * Rendered article HTML. The article body editor fills this in.
+   */
   bodyHtml?: string | null;
   content?:
     | {
@@ -263,6 +273,24 @@ export interface Post {
     | number
     | boolean
     | null;
+  /**
+   * Article copy. Use the upload button for inline images.
+   */
+  articleBody?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   canonicalUrl?: string | null;
   noIndex?: boolean | null;
   noFollow?: boolean | null;
@@ -538,8 +566,10 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   publishedAt?: T;
   featuredImage?: T;
+  featuredUpload?: T;
   bodyHtml?: T;
   content?: T;
+  articleBody?: T;
   canonicalUrl?: T;
   noIndex?: T;
   noFollow?: T;

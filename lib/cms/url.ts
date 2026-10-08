@@ -27,16 +27,13 @@ export function isProductionSiteHost(hostname: string): boolean {
 
 /**
  * Origin that serves Payload admin.
- * Local dev stays on the same host as the site. Production is `admin.{apex}`.
+ * Same origin as the public site unless NEXT_PUBLIC_ADMIN_URL is set.
+ * `admin.{apex}` stays in CORS so a later DNS record does not need a code change.
  */
 export function getAdminOrigin(): string {
-  const explicit = process.env.NEXT_PUBLIC_ADMIN_URL;
-  if (explicit && !LOCALHOST.test(explicit)) return stripSlash(explicit);
-
-  const server = process.env.NEXT_PUBLIC_SERVER_URL;
-  if (!server || LOCALHOST.test(server)) return stripSlash(server || "http://localhost:3000");
-
-  return `https://admin.${siteApex()}`;
+  const explicit = process.env.NEXT_PUBLIC_ADMIN_URL?.trim();
+  if (explicit) return stripSlash(explicit);
+  return getServerURL();
 }
 
 /** Public https origin on Vercel; localhost is never copied into production. */

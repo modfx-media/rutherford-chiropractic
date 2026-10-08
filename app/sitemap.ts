@@ -4,6 +4,7 @@ import { CONDITIONS } from "./_lib/conditions";
 import { PSEO_COMBINATIONS } from "./_lib/pseo/combinations";
 import { getCustomPseoContent } from "./_lib/pseo/city-content";
 import { getPublishedBlogSlugs } from "@/lib/ranked/posts";
+import { publishedCmsSitemapEntries } from "@/lib/cms/posts";
 import { getSitemapOverrides } from "@/lib/cms/sitemap";
 
 /**
@@ -75,6 +76,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   const entries = [...migrated, ...conditions, ...pseo, ...areasWeServe, ...ranked]
+  const seen = new Set(entries.map((entry) => entry.url))
+  const cmsPosts = await publishedCmsSitemapEntries()
+  for (const post of cmsPosts) {
+    if (seen.has(post.url)) continue
+    seen.add(post.url)
+    entries.push({
+      url: post.url,
+      lastModified: post.lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    })
+  }
   const overrides = await getSitemapOverrides()
 
   return entries.flatMap((entry) => {

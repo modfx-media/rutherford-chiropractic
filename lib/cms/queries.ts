@@ -42,3 +42,26 @@ export async function queryPublishedMetaByPath(rawPath: string): Promise<RoutedD
   const routed = await queryRoutedContentByPath(rawPath);
   return routed?.doc ?? null;
 }
+
+/**
+ * Published article for a public slug.
+ * Checks the stored path first (`/blog/:slug` on the blog route, `/:slug` on the root route),
+ * then the other prefix so a CMS `path` still resolves.
+ */
+export async function queryArticleBySlug(
+  slug: string,
+  preferred: "blog" | "root",
+): Promise<RoutedContent | null> {
+  const blogPath = `/blog/${slug}`;
+  const rootPath = `/${slug}`;
+  const first = preferred === "blog" ? blogPath : rootPath;
+  const second = preferred === "blog" ? rootPath : blogPath;
+
+  const primary = await queryRoutedContentByPath(first);
+  if (primary?.collection === "posts") return primary;
+  if (preferred === "blog" && primary) return primary;
+
+  const alternate = await queryRoutedContentByPath(second);
+  if (alternate?.collection === "posts") return alternate;
+  return null;
+}

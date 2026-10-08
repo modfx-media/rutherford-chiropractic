@@ -1,7 +1,14 @@
 import { draftMode } from "next/headers";
 import { LivePreviewListener } from "./LivePreviewListener";
+import { cmsPath } from "./path";
 import { queryRoutedContentByPath } from "./queries";
 import { RenderRoutedContent } from "./RenderRoutedContent";
+
+/** `/blog/[slug]` renders the CMS article itself so the response stays 200. */
+function blogArticleRoute(path: string): boolean {
+  const normalized = cmsPath(path);
+  return Boolean(normalized && /^\/blog\/[^/]+$/.test(normalized));
+}
 
 export async function CMSRoute({
   path,
@@ -15,7 +22,14 @@ export async function CMSRoute({
     draftMode(),
   ]);
 
-  if (!routed) return children;
+  if (!routed || blogArticleRoute(path)) {
+    return (
+      <>
+        {draft.isEnabled ? <LivePreviewListener /> : null}
+        {children}
+      </>
+    );
+  }
 
   return (
     <>

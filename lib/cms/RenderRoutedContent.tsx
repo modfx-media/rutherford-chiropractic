@@ -14,7 +14,9 @@ import { LocationPageTemplate } from "@/app/_ui/locations/LocationPageTemplate";
 import { PseoPageTemplate } from "@/app/_ui/pseo/PseoPageTemplate";
 import { ServicePageTemplate } from "@/app/_ui/services/ServicePageTemplate";
 import type { BlogPostData } from "@/lib/ranked/types";
+import { featuredImageForDoc } from "./media";
 import { cmsPath, publicPath } from "./path";
+import { articleBodyHtml } from "./richtext";
 import type { RoutedContent, RoutedDoc } from "./types";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -57,7 +59,6 @@ function asBlogMeta(doc: RoutedDoc): BlogPostMeta | null {
   const slug = (typeof content.slug === "string" && content.slug) || doc.slug;
   const title = (typeof content.title === "string" && content.title) || doc.title;
   if (!slug || !title) return null;
-  const featured = (content.featuredImage ?? doc.featuredImage) as BlogPostMeta["featuredImage"];
   return {
     slug,
     path: publicPath(doc.path) ?? `/${slug}/`,
@@ -67,7 +68,7 @@ function asBlogMeta(doc: RoutedDoc): BlogPostMeta | null {
       (typeof content.publishedAt === "string" && content.publishedAt) ||
       doc.publishedAt ||
       null,
-    featuredImage: featured ?? null,
+    featuredImage: featuredImageForDoc(doc),
     excerpt: (typeof content.excerpt === "string" && content.excerpt) || doc.excerpt || "",
   };
 }
@@ -95,7 +96,7 @@ function pseoParams(content: unknown): { condition: string; city: string; audien
   return { condition, city, audience };
 }
 
-export function RenderRoutedContent({
+export async function RenderRoutedContent({
   routed,
   fallback,
 }: {
@@ -118,11 +119,7 @@ export function RenderRoutedContent({
     }
     const post = asBlogMeta(doc);
     if (post) {
-      const body =
-        doc.bodyHtml ||
-        (isRecord(doc.content) && typeof doc.content.bodyHtml === "string"
-          ? doc.content.bodyHtml
-          : undefined);
+      const body = await articleBodyHtml(doc);
       return (
         <>
           <JsonLdBlocks blocks={jsonLdSafe(path)} />

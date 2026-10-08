@@ -46,16 +46,6 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  if (
-    isProductionSiteHost(hostname) &&
-    (pathname === "/admin" || pathname.startsWith("/admin/"))
-  ) {
-    return NextResponse.redirect(
-      new URL(`${pathname}${search}`, `https://admin.${siteApex()}`),
-      308,
-    );
-  }
-
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", pathname);
   return NextResponse.next({
