@@ -70,15 +70,13 @@ export default buildConfig({
         return pathValue === "/" ? `${origin}/` : `${origin}${pathValue}`;
       },
     }),
-    ...(blobToken
-      ? [
-          vercelBlobStorage({
-            collections: {
-              media: true,
-            },
-            token: blobToken,
-          }),
-        ]
-      : []),
+    vercelBlobStorage({
+      enabled: Boolean(blobToken),
+      collections: {
+        media: true,
+      },
+      token: blobToken,
+      clientUploads: true,
+    }),
   ],
 });

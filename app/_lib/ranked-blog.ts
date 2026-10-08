@@ -1,4 +1,6 @@
 import { getAllBlogPosts, type BlogPostMeta } from './blog'
+import { fetchPublishedCmsPosts, mergeCmsPosts } from '@/lib/cms/posts'
+import { withCMS } from '@/lib/cms/safe'
 import { getPublishedBlogPosts, type BlogPostData } from '@/lib/ranked/posts'
 
 function categoryFromTitle(title: string): string {
@@ -50,5 +52,11 @@ export async function getPublishedBlogIndexPosts(): Promise<BlogPostMeta[]> {
     }
   })
 
-  return posts.sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))
+  const hardcoded = posts.sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))
+  if (!process.env.DATABASE_URL || !process.env.PAYLOAD_SECRET) return hardcoded
+
+  return withCMS(async () => {
+    const cmsPosts = await fetchPublishedCmsPosts()
+    return mergeCmsPosts(cmsPosts, hardcoded)
+  }, hardcoded)
 }
