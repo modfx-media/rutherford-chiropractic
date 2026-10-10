@@ -1,8 +1,7 @@
 import { getRankedContentDetail, isRankedConfigured, listRankedContent, listRankedProjects } from './client'
-import { ensureUniqueCoverImages, getRankedCoverImage } from './cover'
+import { getRankedCoverImage } from './cover'
 import { fetchGoogleDocHtml } from './google-doc'
 import {
-  ensureUniquePublishDates,
   htmlToBlogPost,
   isBlogContentType,
   isRankedPostLive,
@@ -43,14 +42,10 @@ function uniqueSlug(title: string, contentId: string, taken: Set<string>): strin
   return `${base}-${i}`
 }
 
-// Ranked CMS integration is disabled — always fall back to local blog-data.json posts.
-const RANKED_INTEGRATION_ENABLED = false
-
 export async function getLiveRankedBlogPosts(
   projectId?: string,
   opts: { generateCovers?: boolean; generateForSlug?: string } = {},
 ): Promise<BlogPostData[]> {
-  if (!RANKED_INTEGRATION_ENABLED) return []
   if (!isRankedConfigured() && !projectId) return []
   const id = process.env.RANKED_PROJECT_ID
   if (!process.env.RANKED_API_KEY || !id) return []
@@ -115,19 +110,24 @@ export async function getLiveRankedBlogPosts(
         coverImage: source.featured_image_url,
       })
       if (!post) continue
-      post.coverImage = await getRankedCoverImage({
-        contentId: source.id,
-        title: source.title,
-        slug,
-        generate: Boolean(opts.generateCovers) || opts.generateForSlug === slug,
-        reservedUrls: reservedCovers,
-      })
-      post.coverAlt = `${source.title} cover`
+      if (source.featured_image_url) {
+        post.coverImage = source.featured_image_url
+        post.coverAlt = `${source.title} cover`
+      } else {
+        post.coverImage = await getRankedCoverImage({
+          contentId: source.id,
+          title: source.title,
+          slug,
+          generate: Boolean(opts.generateCovers) || opts.generateForSlug === slug,
+          reservedUrls: reservedCovers,
+        })
+        post.coverAlt = `${source.title} cover`
+      }
       post.relatedPosts = relatedFromLocal(slug)
       posts.push(post)
       taken.add(slug)
     }
-    return ensureUniquePublishDates(ensureUniqueCoverImages(posts))
+    return posts
   } catch (err) {
     console.error('[ranked] failed to load content calendar', err)
     return []
@@ -150,7 +150,7 @@ export async function getPublishedBlogPosts(): Promise<BlogPostData[]> {
   const ranked = await getLiveRankedBlogPosts()
   const taken = new Set(local.map((p) => p.slug))
   const merged = [...local, ...ranked.filter((p) => !taken.has(p.slug))]
-  return ensureUniquePublishDates(ensureUniqueCoverImages(merged))
+  return merged
 }
 
 export async function getPublishedBlogSlugs(): Promise<string[]> {

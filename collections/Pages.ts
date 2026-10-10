@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 import { emptyStringToNull } from "./hooks";
 import { cmsPath } from "@/lib/cms/path";
 import { previewFromPath } from "@/lib/cms/preview";
+import { mediaUrl, publicImageSrc } from "@/lib/cms/media";
 import { lexicalHasContent, lexicalToHtml } from "@/lib/cms/richtext";
 
 const draftVersions = {
@@ -277,7 +278,11 @@ export const Posts: CollectionConfig = {
               siblingData.featuredImage && typeof siblingData.featuredImage === "object"
                 ? (siblingData.featuredImage as Record<string, unknown>)
                 : {};
-            const src = typeof media.url === "string" && media.url ? media.url : existing.src;
+            const src = publicImageSrc(
+              (typeof media.url === "string" && media.url) ||
+                (typeof existing.src === "string" ? existing.src : ""),
+            );
+            if (!src) return id;
             siblingData.featuredImage = {
               ...existing,
               id: media.id,
@@ -364,8 +369,50 @@ export const Posts: CollectionConfig = {
         if (typeof data.path === "string") {
           data.path = cmsPath(data.path) ?? null;
         } else if (typeof data.slug === "string" && data.slug) {
-          data.path = cmsPath(`/blog/${data.slug}`);
+          data.path = cmsPath(`/${data.slug}`);
         }
+        return data;
+      },
+    ],
+    beforeChange: [
+      async ({ data, req }) => {
+        if (!data) return data;
+        const upload = data.featuredUpload;
+        let src = mediaUrl(upload) || mediaUrl(data.featuredImage);
+        const id =
+          typeof upload === "number" || typeof upload === "string"
+            ? upload
+            : upload && typeof upload === "object" && "id" in upload
+              ? (upload as { id?: unknown }).id
+              : null;
+        if (!src && (typeof id === "number" || typeof id === "string")) {
+          try {
+            const media = await req.payload.findByID({
+              collection: "media",
+              id,
+              depth: 0,
+              overrideAccess: true,
+              req,
+            });
+            src = mediaUrl(media);
+          } catch (error) {
+            req.payload.logger.error({ err: error, msg: "Featured image lookup failed" });
+          }
+        }
+        if (!src) return data;
+        const existing =
+          data.featuredImage && typeof data.featuredImage === "object"
+            ? (data.featuredImage as Record<string, unknown>)
+            : {};
+        data.featuredImage = {
+          ...existing,
+          src: publicImageSrc(src),
+          alt:
+            (typeof existing.alt === "string" && existing.alt) ||
+            (typeof data.title === "string" ? data.title : ""),
+          width: typeof existing.width === "number" && existing.width > 0 ? existing.width : 1200,
+          height: typeof existing.height === "number" && existing.height > 0 ? existing.height : 630,
+        };
         return data;
       },
     ],

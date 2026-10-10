@@ -4,7 +4,7 @@ import { BlogIndexPage } from "../../_ui/blog/BlogIndexPage";
 import { getPublishedBlogIndexPosts } from "../../_lib/ranked-blog";
 import { metadataWithCMS } from "@/lib/cms/metadata";
 
-export const revalidate = 3600
+export const revalidate = 300
 
 // Route: /blog/
 // Category: blog-index (Blog index)

@@ -1,76 +1,60 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
-import { JsonLdBlocks } from "../../../_lib/JsonLdBlocks"
-import type { JsonLd } from "../../../_lib/content-map"
-import { RankedBlogPostTemplate } from "../../../_ui/blog/RankedBlogPostTemplate"
-import { getPublishedBlogPost, getPublishedBlogSlugs } from "@/lib/ranked/posts"
+import { notFound, redirect } from "next/navigation"
+import { getPublishedBlogPost } from "@/lib/ranked/posts"
+import { rankedCoverFor } from "../../../_lib/ranked-blog"
 import { SITE_ORIGIN } from "@/lib/ranked/config"
 import { metadataWithCMS } from "@/lib/cms/metadata"
+import { featuredImageForDoc } from "@/lib/cms/media"
 import { queryArticleBySlug } from "@/lib/cms/queries"
 import { RenderRoutedContent } from "@/lib/cms/RenderRoutedContent"
+import type { RoutedContent } from "@/lib/cms/types"
 
-export const revalidate = 3600
-export const dynamicParams = true
+// Empty generateStaticParams plus draftMode() prerendered this route as a
+// static 500 for every slug. Render on demand so a post appears the day it
+// is scheduled, without a redeploy.
+export const dynamic = "force-dynamic"
 
 type PageProps = { params: Promise<{ slug: string }> }
 
-export async function generateStaticParams() {
-  const slugs = await getPublishedBlogSlugs().catch(() => [])
-  return slugs.map((slug) => ({ slug }))
+async function withRankedCover(routed: RoutedContent): Promise<RoutedContent> {
+  if (featuredImageForDoc(routed.doc)) return routed
+  const cover = await rankedCoverFor(routed.doc.slug || "", routed.doc.title || "").catch(() => null)
+  if (!cover) return routed
+  return { ...routed, doc: { ...routed.doc, featuredImage: cover } }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const post = await getPublishedBlogPost(slug)
-  const ranked: Metadata = post
-    ? {
-        title: post.title,
-        description: post.metaDescription,
-        alternates: { canonical: `${SITE_ORIGIN}/blog/${post.slug}/` },
-        openGraph: {
-          title: post.title,
-          description: post.metaDescription,
-          url: `${SITE_ORIGIN}/blog/${post.slug}/`,
-          type: "article",
-          images: [post.coverImage],
-        },
-      }
-    : {}
-
   const article = await queryArticleBySlug(slug, "blog")
-  if (article?.doc.path) return metadataWithCMS(article.doc.path, ranked)
-  if (!post) return ranked
-  return metadataWithCMS(`/blog/${post.slug}/`, ranked)
+  if (article?.doc.path) return metadataWithCMS(article.doc.path)
+
+  const post = await getPublishedBlogPost(slug)
+  if (!post) return {}
+  const url = `${SITE_ORIGIN}/${post.slug}/`
+  return {
+    title: post.title,
+    description: post.metaDescription,
+    alternates: { canonical: url },
+    openGraph: {
+      title: post.title,
+      description: post.metaDescription,
+      url,
+      type: "article",
+      images: post.coverImage ? [post.coverImage] : undefined,
+    },
+  }
 }
 
 export default async function RankedBlogPostPage({ params }: PageProps) {
   const { slug } = await params
   const article = await queryArticleBySlug(slug, "blog")
   if (article?.collection === "posts") {
-    return <RenderRoutedContent routed={article} fallback={null} />
+    return <RenderRoutedContent routed={await withRankedCover(article)} fallback={null} />
   }
 
   const post = await getPublishedBlogPost(slug)
   if (!post) notFound()
 
-  const jsonLd: JsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.metaDescription,
-    datePublished: post.publishDate,
-    image: post.coverImage,
-    mainEntityOfPage: `${SITE_ORIGIN}/blog/${post.slug}/`,
-    author: {
-      "@type": "Organization",
-      name: "Rutherford Spine & Wellness Center",
-    },
-  }
-
-  return (
-    <>
-      <JsonLdBlocks blocks={[jsonLd]} />
-      <RankedBlogPostTemplate post={post} />
-    </>
-  )
+  // Articles live at /{slug}/. Keep /blog/{slug}/ working as an alias.
+  redirect(`/${post.slug}/`)
 }

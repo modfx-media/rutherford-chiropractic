@@ -8,6 +8,7 @@
  */
 
 import Image from "next/image";
+import { imageUnoptimized } from "@/lib/cms/media";
 import Link from "next/link";
 import { Parallax, Reveal, Stagger, StaggerItem } from "../motion/primitives";
 import { businessInfo } from "../nav";
@@ -113,6 +114,7 @@ export function BlogPostTemplate({
                 fill
                 priority
                 sizes="(min-width: 1152px) 1152px, 100vw"
+                unoptimized={imageUnoptimized(post.featuredImage.src)}
                 className="scale-[1.08] object-cover"
               />
             </Parallax>

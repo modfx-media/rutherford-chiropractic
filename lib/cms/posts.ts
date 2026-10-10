@@ -56,15 +56,36 @@ async function findPublishedPosts(): Promise<RoutedDoc[]> {
   return result.docs as RoutedDoc[];
 }
 
+function postKey(path: string): string {
+  const trimmed = path.replace(/\/+$/, "") || "/";
+  return trimmed.replace(/^\/blog\//, "/");
+}
+
+function titleKey(title: string): string {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
 export function mergeCmsPosts(cmsPosts: BlogPostMeta[], hardcoded: BlogPostMeta[]): BlogPostMeta[] {
-  const seenSlugs = new Set(hardcoded.map((post) => post.slug));
-  const seenPaths = new Set(hardcoded.map((post) => post.path));
-  const merged = [...hardcoded];
+  const merged = hardcoded.map((post) => ({ ...post }));
+  const indexBySlug = new Map(merged.map((post, index) => [post.slug, index]));
+  const indexByPath = new Map(merged.map((post, index) => [postKey(post.path), index]));
+  const indexByTitle = new Map(merged.map((post, index) => [titleKey(post.title), index]));
 
   for (const post of cmsPosts) {
-    if (seenSlugs.has(post.slug) || seenPaths.has(post.path)) continue;
-    seenSlugs.add(post.slug);
-    seenPaths.add(post.path);
+    const existing =
+      indexBySlug.get(post.slug) ??
+      indexByPath.get(postKey(post.path)) ??
+      indexByTitle.get(titleKey(post.title));
+    if (existing != null) {
+      const current = merged[existing];
+      if (!current.featuredImage && post.featuredImage) {
+        merged[existing] = { ...current, featuredImage: post.featuredImage };
+      }
+      continue;
+    }
+    indexBySlug.set(post.slug, merged.length);
+    indexByPath.set(postKey(post.path), merged.length);
+    indexByTitle.set(titleKey(post.title), merged.length);
     merged.push(post);
   }
 

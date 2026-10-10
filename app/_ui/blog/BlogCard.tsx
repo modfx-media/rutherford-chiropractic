@@ -6,6 +6,7 @@
  */
 
 import Image from "next/image";
+import { imageUnoptimized } from "@/lib/cms/media";
 import Link from "next/link";
 import type { BlogPostMeta } from "../../_lib/blog";
 import { formatBlogDate } from "../../_lib/blog";
@@ -36,6 +37,7 @@ export function BlogCard({
             alt={post.featuredImage.alt}
             fill
             sizes={featured ? "(min-width: 1024px) 46vw, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
+            unoptimized={imageUnoptimized(post.featuredImage.src)}
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         ) : null}
