@@ -7,6 +7,8 @@ import { getPublishedBlogSlugs } from "@/lib/ranked/posts";
 import { publishedCmsSitemapEntries } from "@/lib/cms/posts";
 import { getSitemapOverrides } from "@/lib/cms/sitemap";
 
+export const revalidate = 300;
+
 /**
  * Single indexable sitemap at `/sitemap.xml`.
  * Migrated WordPress page and post URLs stay here (they are real pages, not
@@ -70,7 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const rankedSlugs = await getPublishedBlogSlugs().catch(() => [])
   const ranked = rankedSlugs.map((slug) => ({
-    url: `${ORIGIN}/blog/${slug}/`,
+    url: `${ORIGIN}/${slug}/`,
     changeFrequency: "weekly" as const,
     priority: 0.6,
   }))

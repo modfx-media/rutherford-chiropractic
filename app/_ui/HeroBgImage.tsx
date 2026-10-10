@@ -8,6 +8,7 @@
  */
 
 import Image from "next/image";
+import { imageUnoptimized } from "@/lib/cms/media";
 
 export function HeroBgImage({ src, alt = "" }: { src: string; alt?: string }) {
   return (
@@ -18,6 +19,7 @@ export function HeroBgImage({ src, alt = "" }: { src: string; alt?: string }) {
         fill
         priority
         sizes="100vw"
+        unoptimized={imageUnoptimized(src)}
         className="object-cover object-center"
       />
       {/* Directional navy gradient scrim — dark enough on the left where

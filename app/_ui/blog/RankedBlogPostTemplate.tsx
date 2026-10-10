@@ -4,6 +4,7 @@
  */
 
 import Image from "next/image"
+import { imageUnoptimized } from "@/lib/cms/media"
 import Link from "next/link"
 import { Fragment } from "react"
 import { Parallax, Reveal, Stagger, StaggerItem } from "../motion/primitives"
@@ -129,6 +130,7 @@ export function RankedBlogPostTemplate({ post }: { post: BlogPostData }) {
                 fill
                 priority
                 sizes="(min-width: 1152px) 1152px, 100vw"
+                unoptimized={imageUnoptimized(meta.featuredImage.src)}
                 className="scale-[1.08] object-cover"
               />
             </Parallax>

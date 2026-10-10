@@ -9,8 +9,6 @@ function unauthorized() {
   return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
 }
 
-const RANKED_INTEGRATION_ENABLED = false
-
 function isAuthorized(request: Request): boolean {
   const secret = process.env.CRON_SECRET
   if (!secret) return false
@@ -18,9 +16,6 @@ function isAuthorized(request: Request): boolean {
 }
 
 export async function GET(request: Request) {
-  if (!RANKED_INTEGRATION_ENABLED) {
-    return NextResponse.json({ ok: false, error: 'Ranked integration disabled' }, { status: 503 })
-  }
   if (!isAuthorized(request)) return unauthorized()
   const result = await syncAllRankedSites()
   return NextResponse.json({ ok: true, ranAt: new Date().toISOString(), ...result })

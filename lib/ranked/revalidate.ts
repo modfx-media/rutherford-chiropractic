@@ -6,5 +6,6 @@ export function revalidateRankedBlog() {
   revalidatePath('/blog')
   revalidatePath('/blog/')
   revalidatePath('/blog/[slug]', 'page')
+  revalidatePath('/[slug]', 'page')
   revalidatePath('/sitemap.xml')
 }

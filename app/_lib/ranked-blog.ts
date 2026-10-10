@@ -20,17 +20,41 @@ function categoryFromTitle(title: string): string {
 export function rankedPostToMeta(post: BlogPostData): BlogPostMeta {
   return {
     slug: post.slug,
-    path: `/blog/${post.slug}/`,
+    path: `/${post.slug}/`,
     title: post.title,
     category: categoryFromTitle(post.title),
-    publishedAt: `${post.publishDate}T12:00:00.000Z`,
-    featuredImage: {
-      src: post.coverImage,
-      alt: post.coverAlt || post.title,
-      width: 1200,
-      height: 630,
-    },
+    publishedAt: post.publishDate ? `${post.publishDate}T12:00:00.000Z` : null,
+    featuredImage: post.coverImage
+      ? {
+          src: post.coverImage,
+          alt: post.coverAlt || post.title,
+          width: 1200,
+          height: 630,
+        }
+      : null,
     excerpt: post.metaDescription || post.intro,
+  }
+}
+
+/** Cover from a live Ranked post with this slug or title. Compiled JSON posts are skipped. */
+export async function rankedCoverFor(
+  slug: string,
+  title: string,
+): Promise<BlogPostMeta['featuredImage']> {
+  const local = new Set(getAllBlogPosts().map((post) => post.slug))
+  const titleKey = title.toLowerCase().replace(/[^a-z0-9]+/g, '')
+  const posts = await getPublishedBlogPosts()
+  const match = posts.find((post) => {
+    if (local.has(post.slug) || !post.coverImage) return false
+    const sameTitle = titleKey && post.title.toLowerCase().replace(/[^a-z0-9]+/g, '') === titleKey
+    return post.slug === slug || sameTitle
+  })
+  if (!match?.coverImage) return null
+  return {
+    src: match.coverImage,
+    alt: match.coverAlt || title,
+    width: 1200,
+    height: 630,
   }
 }
 
@@ -39,18 +63,33 @@ export async function getPublishedBlogIndexPosts(): Promise<BlogPostMeta[]> {
   const published = await getPublishedBlogPosts()
   const localBySlug = new Map(local.map((p) => [p.slug, p]))
 
-  const posts = published.map((p) => {
+  const seen = new Set<string>()
+  const posts: BlogPostMeta[] = []
+  for (const p of published) {
     const loc = localBySlug.get(p.slug)
-    if (!loc) return rankedPostToMeta(p)
-    return {
-      ...loc,
-      publishedAt: p.publishDate ? `${p.publishDate}T12:00:00.000Z` : loc.publishedAt,
-      featuredImage:
-        loc.featuredImage && p.coverImage && p.coverImage !== loc.featuredImage.src
-          ? { ...loc.featuredImage, src: p.coverImage, alt: p.coverAlt || loc.featuredImage.alt }
-          : loc.featuredImage,
-    }
-  })
+    const meta = loc
+      ? {
+          ...loc,
+          featuredImage:
+            loc.featuredImage ??
+            (p.coverImage
+              ? {
+                  src: p.coverImage,
+                  alt: p.coverAlt || loc.title,
+                  width: 1200,
+                  height: 630,
+                }
+              : null),
+        }
+      : rankedPostToMeta(p)
+    const title = meta.title.toLowerCase().replace(/[^a-z0-9]+/g, '')
+    const path = meta.path.replace(/\/+$/, '').replace(/^\/blog\//, '/')
+    if (seen.has(meta.slug) || seen.has(path) || (title && seen.has(`title:${title}`))) continue
+    seen.add(meta.slug)
+    seen.add(path)
+    if (title) seen.add(`title:${title}`)
+    posts.push(meta)
+  }
 
   const hardcoded = posts.sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))
   if (!process.env.DATABASE_URL || !process.env.PAYLOAD_SECRET) return hardcoded

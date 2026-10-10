@@ -148,6 +148,25 @@ export function isBlogContentType(contentType: string | null): boolean {
   return type.includes('blog')
 }
 
+/** Calendar day in America/New_York (`YYYY-MM-DD`). */
+export function todayInNewYork(now = new Date()): string {
+  return now.toLocaleDateString('en-CA', { timeZone: 'America/New_York' })
+}
+
+/**
+ * Scheduled day used for both the live check and the date shown on the post.
+ * Date-only values (and UTC-midnight date stamps) stay on that calendar day.
+ * Timestamps use the New York calendar day so a post is not held until the next UTC date.
+ */
+export function scheduledCalendarDay(scheduledDate: string): string {
+  const raw = scheduledDate.trim()
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw
+  if (/^\d{4}-\d{2}-\d{2}T00:00:00(?:\.000)?(?:Z|\+00:00)$/.test(raw)) return raw.slice(0, 10)
+  const parsed = new Date(raw)
+  if (Number.isNaN(parsed.getTime())) return raw.slice(0, 10)
+  return todayInNewYork(parsed)
+}
+
 export function isRankedPostLive(
   status: string,
   scheduledDate: string | null = null,
@@ -156,62 +175,10 @@ export function isRankedPostLive(
   const s = status.trim().toLowerCase()
   if (s === 'revising' || s === 'cancelled' || s === 'canceled') return false
   if (!scheduledDate) return true
-  const day = scheduledDate.slice(0, 10)
-  const today = now.toLocaleDateString('en-CA', { timeZone: 'America/New_York' })
-  return day <= today
+  return scheduledCalendarDay(scheduledDate) <= todayInNewYork(now)
 }
 
 export function publishDateFromRanked(scheduledDate: string | null, fallback: string): string {
-  if (scheduledDate) return scheduledDate.slice(0, 10)
-  return fallback.slice(0, 10)
-}
-
-export function todayInNewYork(now = new Date()): string {
-  return now.toLocaleDateString('en-CA', { timeZone: 'America/New_York' })
-}
-
-export function addIsoDays(isoDate: string, days: number): string {
-  const [year, month, day] = isoDate.slice(0, 10).split('-').map(Number)
-  const next = new Date(Date.UTC(year, month - 1, day + days))
-  return next.toISOString().slice(0, 10)
-}
-
-export function nextUniquePublishDate(
-  preferred: string,
-  occupied: Set<string>,
-  today = todayInNewYork(),
-): string {
-  let date = preferred.slice(0, 10)
-  if (!occupied.has(date)) return date
-
-  let forward = date
-  while (forward < today) {
-    forward = addIsoDays(forward, 1)
-    if (!occupied.has(forward) && forward <= today) return forward
-  }
-
-  let back = preferred.slice(0, 10)
-  while (occupied.has(back)) back = addIsoDays(back, -1)
-  return back
-}
-
-/** No two posts share a publishDate. Keep original dates when they are free. */
-export function ensureUniquePublishDates<T extends { slug: string; publishDate: string }>(
-  posts: T[],
-  today = todayInNewYork(),
-): T[] {
-  const occupied = new Set<string>()
-  const sorted = [...posts].sort(
-    (a, b) => a.publishDate.localeCompare(b.publishDate) || a.slug.localeCompare(b.slug),
-  )
-  const remapped = new Map<string, string>()
-  for (const post of sorted) {
-    const unique = nextUniquePublishDate(post.publishDate, occupied, today)
-    occupied.add(unique)
-    remapped.set(post.slug, unique)
-  }
-  return posts.map((post) => {
-    const date = remapped.get(post.slug)
-    return date && date !== post.publishDate ? { ...post, publishDate: date } : post
-  })
+  if (scheduledDate) return scheduledCalendarDay(scheduledDate)
+  return scheduledCalendarDay(fallback)
 }

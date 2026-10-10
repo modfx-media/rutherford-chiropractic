@@ -22,7 +22,9 @@ export async function CMSRoute({
     draftMode(),
   ]);
 
-  if (!routed || blogArticleRoute(path)) {
+  // Post URLs are rendered by /[slug] and /blog/[slug]. Overlaying them here
+  // painted the article twice and skipped the Ranked cover fallback.
+  if (!routed || blogArticleRoute(path) || routed.collection === "posts") {
     return (
       <>
         {draft.isEnabled ? <LivePreviewListener /> : null}
