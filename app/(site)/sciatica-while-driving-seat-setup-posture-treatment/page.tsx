@@ -4,6 +4,8 @@ import { BlogPostTemplate } from "../../_ui/blog/BlogPostTemplate";
 import { getBlogPost } from "../../_lib/blog";
 import { metadataWithCMS } from "@/lib/cms/metadata";
 
+
+export const revalidate = 300;
 // Route: /sciatica-while-driving-seat-setup-posture-treatment/
 // Category: blog-post (Blog post)
 // Source sitemap: post-sitemap.xml

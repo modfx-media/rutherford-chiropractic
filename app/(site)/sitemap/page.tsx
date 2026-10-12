@@ -6,6 +6,8 @@ import { UtilityHero } from "../../_ui/utility/UtilityHero";
 import { Reveal } from "../../_ui/motion/primitives";
 import { metadataWithCMS } from "@/lib/cms/metadata";
 
+
+export const revalidate = 300;
 // Route: /sitemap/
 // A human-readable directory of the site, grouped by section — the HTML
 // counterpart to the machine-readable `/sitemap.xml` (see `app/sitemap.ts`).
