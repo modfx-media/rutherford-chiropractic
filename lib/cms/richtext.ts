@@ -1,6 +1,7 @@
 import { convertLexicalToHTMLAsync } from "@payloadcms/richtext-lexical/html-async";
 import { getPayload, type PayloadRequest } from "payload";
 import type { RoutedDoc } from "./types";
+import { sanitizeArticleHtml } from "./sanitize-html";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -66,9 +67,9 @@ export async function articleBodyHtml(doc: RoutedDoc): Promise<string | undefine
     }
   }
 
-  if (typeof doc.bodyHtml === "string" && doc.bodyHtml.trim()) return doc.bodyHtml;
+  if (typeof doc.bodyHtml === "string" && doc.bodyHtml.trim()) return sanitizeArticleHtml(doc.bodyHtml);
   if (isRecord(doc.content) && typeof doc.content.bodyHtml === "string" && doc.content.bodyHtml.trim()) {
-    return doc.content.bodyHtml;
+    return sanitizeArticleHtml(doc.content.bodyHtml);
   }
   return undefined;
 }
