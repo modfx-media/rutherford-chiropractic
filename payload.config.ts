@@ -14,6 +14,7 @@ import { getCorsOrigins, getServerURL } from "./lib/cms/url";
 import { publicPath } from "./lib/cms/path";
 
 import { scheduledPublishPlugin } from "./scheduled-publish";
+import { blobUniqueClientUploads } from "./lib/cms/blob-unique-upload";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -75,10 +76,15 @@ export default buildConfig({
     vercelBlobStorage({
       enabled: Boolean(blobToken),
       collections: {
-        media: true,
+        // Public reads use the blob URL; the /api/media/file proxy returns 404 on Vercel
+        // for files in Blob, which left uploaded images broken in the editor and on the site.
+        media: {
+          disablePayloadAccessControl: true,
+        },
       },
       token: blobToken,
       clientUploads: true,
     }),
+    blobUniqueClientUploads(),
   ],
 });
