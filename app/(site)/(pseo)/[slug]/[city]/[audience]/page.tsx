@@ -20,16 +20,30 @@ import { metadataWithCMS } from "@/lib/cms/metadata";
 // pattern as the 2-segment `/{condition}/{city}/` route.
 export const dynamicParams = false;
 
-export function generateStaticParams(): PseoAudiencePageParams[] {
-  return getAllPseoAudienceParams();
+type RouteParams = { slug: string; city: string; audience: string };
+
+function toAudienceParams(params: RouteParams): PseoAudiencePageParams {
+  return {
+    condition: params.slug,
+    city: params.city,
+    audience: params.audience,
+  };
+}
+
+export function generateStaticParams(): RouteParams[] {
+  return getAllPseoAudienceParams().map(({ condition, city, audience }) => ({
+    slug: condition,
+    city,
+    audience,
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<PseoAudiencePageParams>;
+  params: Promise<RouteParams>;
 }): Promise<Metadata> {
-  const resolved = await params;
+  const resolved = toAudienceParams(await params);
   const content = buildPseoAudienceContent(resolved);
   if (!content) return {};
   const meta = await metadataWithCMS(
@@ -42,9 +56,9 @@ export async function generateMetadata({
 export default async function Page({
   params,
 }: {
-  params: Promise<PseoAudiencePageParams>;
+  params: Promise<RouteParams>;
 }) {
-  const resolved = await params;
+  const resolved = toAudienceParams(await params);
   const content = buildPseoAudienceContent(resolved);
   if (!content) notFound();
 

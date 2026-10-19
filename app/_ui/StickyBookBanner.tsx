@@ -11,9 +11,9 @@
  *   - Dismissible via a close button; once dismissed it stays hidden for
  *     the rest of the session (component state only — reappears on a
  *     fresh page load, which is fine for this use case).
- *   - Hidden entirely on the Contact Us page — that page already IS the
- *     booking destination, so the floating CTA would just be redundant
- *     clutter on top of the contact form.
+ *   - Hidden entirely on the Contact Us page and the post-submit thank-you
+ *     page — those pages already are the booking destination, so the
+ *     floating CTA would just be redundant clutter.
  *   - Hidden once the footer scrolls into view, via `IntersectionObserver`
  *     watching `#site-footer` (see `Footer.tsx`) — the footer has its own
  *     phone/booking links, so the floating bar would otherwise overlap it.
@@ -43,7 +43,9 @@ export function StickyBookBanner() {
     setDismissed(false);
   }
 
-  const onContactPage = pathname?.startsWith("/contact-us") ?? false;
+  const onContactPage =
+    (pathname?.startsWith("/contact-us") ?? false) ||
+    (pathname?.startsWith("/thank-you") ?? false);
 
   useEffect(() => {
     let ticking = false;

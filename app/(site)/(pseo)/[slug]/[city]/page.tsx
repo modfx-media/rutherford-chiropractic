@@ -10,6 +10,11 @@ import { metadataWithCMS } from "@/lib/cms/metadata";
 // programmatic pages live apart from the many hand-migrated top-level
 // route folders).
 //
+// The first segment's folder is named `[slug]` so it matches
+// `app/(site)/[slug]`. Next.js rejects two dynamic segments at the same
+// URL position when their param names differ. The public URL is unchanged;
+// `slug` here is the condition slug.
+//
 // Only the curated pairs in `PSEO_COMBINATIONS` (app/_lib/pseo/combinations.ts)
 // are valid pages — everything else 404s. `dynamicParams = false` makes
 // Next.js reject any param combination not returned by
@@ -18,16 +23,25 @@ import { metadataWithCMS } from "@/lib/cms/metadata";
 // content.ts.
 export const dynamicParams = false;
 
-export function generateStaticParams(): PseoPageParams[] {
-  return getAllPseoParams();
+type RouteParams = { slug: string; city: string };
+
+function toPseoParams(params: RouteParams): PseoPageParams {
+  return { condition: params.slug, city: params.city };
+}
+
+export function generateStaticParams(): RouteParams[] {
+  return getAllPseoParams().map(({ condition, city }) => ({
+    slug: condition,
+    city,
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<PseoPageParams>;
+  params: Promise<RouteParams>;
 }): Promise<Metadata> {
-  const resolved = await params;
+  const resolved = toPseoParams(await params);
   const content = buildPseoContent(resolved);
   if (!content) return {};
   const meta = await metadataWithCMS(
@@ -40,9 +54,9 @@ export async function generateMetadata({
 export default async function Page({
   params,
 }: {
-  params: Promise<PseoPageParams>;
+  params: Promise<RouteParams>;
 }) {
-  const resolved = await params;
+  const resolved = toPseoParams(await params);
   const content = buildPseoContent(resolved);
   if (!content) notFound();
 

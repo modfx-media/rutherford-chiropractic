@@ -65,12 +65,43 @@ export default async function SiteLayout({
           src="https://www.googletagmanager.com/gtag/js?id=G-4RDRK2BSL1"
           strategy="afterInteractive"
         />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-10997508084"
+          strategy="afterInteractive"
+        />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-4RDRK2BSL1');
+            gtag('config', 'AW-10997508084');
+            gtag('config', 'AW-10997508084/JQXNCNml2qIdEPTPgvwo', {
+              'phone_conversion_number': '(615) 217-0097'
+            });
+            function gtag_report_conversion(url) {
+              var callback = function () {
+                if (typeof(url) != 'undefined') {
+                  window.location = url;
+                }
+              };
+              gtag('event', 'conversion', {
+                'send_to': 'AW-10997508084/zs7VCNyl2qIdEPTPgvwo',
+                'value': 1.0,
+                'currency': 'USD',
+                'event_callback': callback
+              });
+              return false;
+            }
+            document.addEventListener('click', function (event) {
+              var target = event.target;
+              var link = target && target.closest ? target.closest('a[href^="tel:"]') : null;
+              if (!link) return;
+              var href = link.getAttribute('href');
+              if (!href) return;
+              event.preventDefault();
+              gtag_report_conversion(href);
+            });
           `}
         </Script>
         <Script id="microsoft-clarity" strategy="afterInteractive">

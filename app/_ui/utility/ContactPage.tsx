@@ -272,6 +272,8 @@ export function ContactPage({ review }: { review?: GoogleReview | null }) {
                   </div>
 
                   <div className="p-2 sm:p-3">
+                    {/* On a successful submit, this widget redirects the
+                        parent window to /thank-you/. */}
                     <iframe
                       src={GHL_FORM_SRC}
                       title="Website Lead Form"
