@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { blogSeoOverride } from "@/app/_lib/blog-seo";
 import { ORIGIN, metadataFor } from "@/app/_lib/content-map";
-import { locationLandingTitle } from "@/app/_lib/location-seo";
 import { withAbsoluteMeta } from "@/app/_lib/seo/absolute-meta";
+import { normalizePagePath, resolveIndexableTitle } from "@/app/_lib/seo/page-titles";
 import { cmsPath, publicPath } from "./path";
 import { queryPublishedMetaByPath } from "./queries";
 import { withCMS } from "./safe";
@@ -50,33 +50,27 @@ export function cmsMetadata(doc: RoutedDoc, fallback: Metadata = {}): Metadata {
   };
 }
 
-function normalizePath(path: string): string {
-  const withLead = path.startsWith("/") ? path : `/${path}`;
-  return withLead.endsWith("/") ? withLead : `${withLead}/`;
+function titleString(title: Metadata["title"]): string | undefined {
+  if (typeof title === "string") return title;
+  if (title && typeof title === "object" && "absolute" in title && typeof title.absolute === "string") {
+    return title.absolute;
+  }
+  return undefined;
 }
 
-const FIXED_PAGES: Record<string, { title: string; description?: string }> = {
-  "/areas-we-serve/": {
-    title: "Areas We Serve | Rutherford",
-    description:
-      "Condition pages for Murfreesboro, Smyrna, Franklin, Nashville, and nearby Tennessee cities. Rutherford Spine & Wellness. Call 615-217-0097.",
-  },
-  "/sitemap/": {
-    title: "Sitemap | Rutherford",
-  },
+const FIXED_DESCRIPTIONS: Record<string, string> = {
+  "/areas-we-serve/":
+    "Condition pages for Murfreesboro, Smyrna, Franklin, Nashville, and nearby Tennessee cities. Rutherford Spine & Wellness. Call 615-217-0097.",
 };
 
 /** Code-owned titles win over CMS copies of the old long templates.
- * Editors still control every other page. */
+ * Every indexable path gets one absolute title: brand once, at most 60 characters. */
 function applyFixedSeo(path: string, meta: Metadata): Metadata {
-  const normalized = normalizePath(path);
-  const fixed = FIXED_PAGES[normalized];
-  if (fixed) return withAbsoluteMeta(meta, fixed.title, fixed.description);
+  const normalized = normalizePagePath(path);
+  const title = resolveIndexableTitle(normalized, titleString(meta.title));
   const blog = blogSeoOverride(normalized);
-  if (blog) return withAbsoluteMeta(meta, blog.title, blog.description);
-  const locationTitle = locationLandingTitle(normalized);
-  if (locationTitle) return withAbsoluteMeta(meta, locationTitle);
-  return meta;
+  const description = FIXED_DESCRIPTIONS[normalized] ?? blog?.description;
+  return withAbsoluteMeta(meta, title, description);
 }
 
 export async function metadataWithCMS(

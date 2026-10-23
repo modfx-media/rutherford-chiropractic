@@ -6,6 +6,9 @@ import { getAllLocationSlugs } from "../app/_lib/locations";
 import { locationLandingTitle } from "../app/_lib/location-seo";
 import { blogSeoOverride } from "../app/_lib/blog-seo";
 import { topicLinksForPost, readingForPage } from "../app/_lib/blog-links";
+import { ROUTES } from "../app/_lib/content-map";
+import { CONDITIONS } from "../app/_lib/conditions";
+import { PAGE_TITLES, resolveIndexableTitle } from "../app/_lib/seo/page-titles";
 
 const titles = new Map<string, string>();
 let bad = 0;
@@ -17,7 +20,7 @@ function check(kind: string, path: string, title: string, desc: string) {
   if (brand !== 1) problems.push(`brand ${brand}`);
   if (desc.length > 160) problems.push(`meta ${desc.length}`);
   if (desc.length < 110) problems.push(`meta short ${desc.length}`);
-  if (titles.has(title)) problems.push(`dup of ${titles.get(title)}`);
+  if (titles.has(title) && titles.get(title) !== path) problems.push(`dup of ${titles.get(title)}`);
   titles.set(title, path);
   if (problems.length) {
     bad += 1;
@@ -25,6 +28,47 @@ function check(kind: string, path: string, title: string, desc: string) {
     console.log(" ", title);
     console.log(" ", desc);
   }
+}
+
+for (const [path, title] of Object.entries(PAGE_TITLES)) {
+  check("page", path, title, "x".repeat(140));
+}
+
+for (const route of ROUTES) {
+  const resolved = resolveIndexableTitle(route.path, route.meta?.title);
+  if (route.category === "location-landing") {
+    const expected = locationLandingTitle(route.path);
+    if (resolved !== expected) {
+      bad += 1;
+      console.log("location title mismatch", route.path, resolved, expected);
+    }
+  } else if (PAGE_TITLES[route.path] !== resolved) {
+    bad += 1;
+    console.log("missing curated title", route.path, resolved);
+  }
+}
+
+for (const condition of CONDITIONS) {
+  const path = `/${condition.slug}/`;
+  if (condition.metaTitle !== PAGE_TITLES[path]) {
+    bad += 1;
+    console.log("condition metaTitle drift", path, condition.metaTitle);
+  }
+}
+
+const fittedA = resolveIndexableTitle(
+  "/cms-only-alpha-post/",
+  "How Spinal Decompression Can Help with a Very Long CMS Title - Chiropractic Murfreesboro TN",
+);
+const fittedB = resolveIndexableTitle(
+  "/cms-only-beta-post/",
+  "How Spinal Decompression Can Help with a Very Long CMS Title - Chiropractic Murfreesboro TN",
+);
+check("fit", "/cms-only-alpha-post/", fittedA, "x".repeat(140));
+check("fit", "/cms-only-beta-post/", fittedB, "x".repeat(140));
+if (fittedA === fittedB) {
+  bad += 1;
+  console.log("fitted titles collided", fittedA);
 }
 
 let indexable = 0;
@@ -96,6 +140,8 @@ const sampleAud = buildPseoAudienceContent({
   city: "blackman-murfreesboro",
   audience: "athletes",
 });
+
+if (bad > 0) process.exitCode = 1;
 
 console.log(
   JSON.stringify(

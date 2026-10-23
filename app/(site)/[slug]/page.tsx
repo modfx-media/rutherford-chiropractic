@@ -8,6 +8,8 @@ import { getPublishedBlogPost } from "@/lib/ranked/posts";
 import { rankedCoverFor } from "../../_lib/ranked-blog";
 import { featuredImageForDoc } from "@/lib/cms/media";
 import { SITE_ORIGIN } from "@/lib/ranked/config";
+import { resolveIndexableTitle } from "../../_lib/seo/page-titles";
+import { withAbsoluteMeta } from "../../_lib/seo/absolute-meta";
 import type { RoutedContent } from "@/lib/cms/types";
 
 export const dynamicParams = true;
@@ -30,18 +32,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = await getPublishedBlogPost(slug);
   if (post) {
     const url = `${SITE_ORIGIN}/${post.slug}/`;
-    return {
-      title: post.title,
-      description: post.metaDescription,
-      alternates: { canonical: url },
-      openGraph: {
-        title: post.title,
+    const title = resolveIndexableTitle(`/${post.slug}/`, post.title);
+    return withAbsoluteMeta(
+      {
         description: post.metaDescription,
-        url,
-        type: "article",
-        images: post.coverImage ? [post.coverImage] : undefined,
+        alternates: { canonical: url },
+        openGraph: {
+          url,
+          type: "article",
+          images: post.coverImage ? [post.coverImage] : undefined,
+        },
       },
-    };
+      title,
+      post.metaDescription,
+    );
   }
 
   return metadataWithCMS(`/${slug}/`);
