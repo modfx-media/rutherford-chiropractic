@@ -1,6 +1,7 @@
 import { getAllBlogPosts, type BlogPostMeta } from './blog'
 import { fetchPublishedCmsPosts, mergeCmsPosts } from '@/lib/cms/posts'
 import { withCMS } from '@/lib/cms/safe'
+import { COMMITTED_COVER_ALTS, committedCoverUrl } from '@/lib/ranked/config'
 import { getPublishedBlogPosts, type BlogPostData } from '@/lib/ranked/posts'
 
 function categoryFromTitle(title: string): string {
@@ -18,18 +19,20 @@ function categoryFromTitle(title: string): string {
 }
 
 export function rankedPostToMeta(post: BlogPostData): BlogPostMeta {
+  const committed = committedCoverUrl(post.slug)
+  const cover = committed || post.coverImage
   return {
     slug: post.slug,
     path: `/${post.slug}/`,
     title: post.title,
     category: categoryFromTitle(post.title),
     publishedAt: post.publishDate ? `${post.publishDate}T12:00:00.000Z` : null,
-    featuredImage: post.coverImage
+    featuredImage: cover
       ? {
-          src: post.coverImage,
-          alt: post.coverAlt || post.title,
-          width: 1200,
-          height: 630,
+          src: cover,
+          alt: COMMITTED_COVER_ALTS[post.slug] || post.coverAlt || post.title,
+          width: committed ? 1280 : 1200,
+          height: committed ? 720 : 630,
         }
       : null,
     excerpt: post.metaDescription || post.intro,

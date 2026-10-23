@@ -1,4 +1,5 @@
 import type { BlogPostMeta } from "@/app/_lib/blog";
+import { COMMITTED_COVER_ALTS, committedCoverUrl } from "@/lib/ranked/config";
 import type { RoutedDoc } from "./types";
 
 export type ArticleImage = NonNullable<BlogPostMeta["featuredImage"]>;
@@ -92,6 +93,19 @@ export function articleImage(value: unknown, altFallback = ""): ArticleImage | n
 }
 
 export function featuredImageForDoc(doc: RoutedDoc): ArticleImage | null {
+  const slug =
+    (typeof doc.slug === "string" && doc.slug) ||
+    (isRecord(doc.content) && typeof doc.content.slug === "string" ? doc.content.slug : "") ||
+    "";
+  const committed = committedCoverUrl(slug);
+  if (committed) {
+    return {
+      src: committed,
+      alt: COMMITTED_COVER_ALTS[slug] || doc.title || "",
+      width: 1280,
+      height: 720,
+    };
+  }
   const alt = doc.title || "";
   const content = isRecord(doc.content) ? doc.content : {};
   return (

@@ -1,5 +1,5 @@
 import { BlobNotFoundError, head, put } from '@vercel/blob'
-import { COMMITTED_COVER_SLUGS, coverPrompt } from './config'
+import { committedCoverUrl, coverPrompt } from './config'
 
 const FALLBACK_UNSPLASH = [
   'photo-1576091160399-112ba8d25d1d',
@@ -156,10 +156,7 @@ function coverJpgPath(contentId: string): string {
   return `blog-covers/${contentId}.jpg`
 }
 
-function committedCoverUrl(slug?: string): string | null {
-  if (!slug) return null
-  return COMMITTED_COVER_SLUGS.includes(slug) ? `/images/blog/covers/${slug}.png` : null
-}
+export { committedCoverUrl }
 
 function hashSlug(slug: string): number {
   let hash = 0

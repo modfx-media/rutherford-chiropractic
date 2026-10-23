@@ -1,4 +1,5 @@
 import { getRankedContentDetail, isRankedConfigured, listRankedContent, listRankedProjects } from './client'
+import { COMMITTED_COVER_ALTS, committedCoverUrl } from './config'
 import { getRankedCoverImage } from './cover'
 import { fetchGoogleDocHtml } from './google-doc'
 import {
@@ -110,7 +111,11 @@ export async function getLiveRankedBlogPosts(
         coverImage: source.featured_image_url,
       })
       if (!post) continue
-      if (source.featured_image_url) {
+      const localCover = committedCoverUrl(slug)
+      if (localCover) {
+        post.coverImage = localCover
+        post.coverAlt = COMMITTED_COVER_ALTS[slug] || `${source.title} cover`
+      } else if (source.featured_image_url) {
         post.coverImage = source.featured_image_url
         post.coverAlt = `${source.title} cover`
       } else {

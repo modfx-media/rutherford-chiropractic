@@ -24,7 +24,19 @@ export function coverPrompt(title: string): string {
 }
 
 /**
- * Slugs that already have a committed file at /images/blog/covers/{slug}.png
+ * Slugs that already have a committed file at /images/blog/covers/{slug}.jpg
  * List only. Do not fs.stat public/ — that packs images into the cron bundle.
  */
-export const COMMITTED_COVER_SLUGS: readonly string[] = []
+export const COMMITTED_COVER_SLUGS: readonly string[] = [
+  "massage-therapy-and-chiropractic-care-for-joint-pain-relief-in-murfreesboro",
+]
+
+export const COMMITTED_COVER_ALTS: Record<string, string> = {
+  "massage-therapy-and-chiropractic-care-for-joint-pain-relief-in-murfreesboro":
+    "Woman pausing on the edge of a chair, holding a stiff painful knee on a cool autumn morning",
+}
+
+export function committedCoverUrl(slug?: string): string | null {
+  if (!slug) return null
+  return COMMITTED_COVER_SLUGS.includes(slug) ? `/images/blog/covers/${slug}.jpg` : null
+}
