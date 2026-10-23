@@ -9,7 +9,7 @@ export function RelatedFromBlog({ pageSlug }: { pageSlug: string }) {
   return (
     <section className="section-y bg-white">
       <div className="container-content">
-        <span className="eyebrow">From the blog</span>
+        <span className="eyebrow !text-[color:var(--color-brand-blue)]">From the blog</span>
         <h2 className="h-section mt-3">Related reading</h2>
         <ul className="mt-6 space-y-3">
           {posts.map((post) => (

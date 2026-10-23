@@ -236,31 +236,115 @@ export function stripBrandSuffix(title: string): string {
     .trim();
 }
 
-function clipHead(head: string, max: number): string {
-  const clean = head.replace(/\s+/g, " ").trim();
-  if (clean.length <= max) return clean;
-  const cut = clean.slice(0, max + 1);
-  const space = cut.lastIndexOf(" ");
-  let clipped = (space > 12 ? cut.slice(0, space) : clean.slice(0, max)).trim();
-  clipped = clipped
-    .replace(/[\s,;:–—\-|]+$/g, "")
-    .replace(/\s+(and|or|the|a|an|with|for|to|of|in|on|from|your|that)$/i, "");
-  return clipped || clean.slice(0, max).trim();
-}
+const HEAD_MAX = TITLE_MAX - BRAND.length;
 
-function withSingleBrand(head: string): string {
-  let clean = stripBrandSuffix(head);
-  if (/Rutherford/i.test(clean)) {
-    clean = clean.replace(/\bRutherford\b/gi, "").replace(/\s{2,}/g, " ").trim();
+/** Words that must not be the last word of a title. */
+const DANGLING_END = new Set([
+  "a", "an", "the", "and", "or", "but", "nor", "with", "for", "to", "of", "in", "on",
+  "from", "your", "you", "that", "this", "what", "when", "how", "why", "after",
+  "before", "into", "over", "about", "need", "needs", "may", "can", "just", "not",
+  "vs", "than", "if", "as", "at", "by", "up", "out", "its", "very", "really", "more", "most",
+  "means", "explore", "overlook", "joint", "active",
+]);
+
+function tidyEnding(head: string): string {
+  let words = head
+    .replace(/[\s,;:–—\-|?/]+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .filter(Boolean);
+  while (words.length > 2) {
+    const last = words[words.length - 1].toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!DANGLING_END.has(last)) break;
+    words = words.slice(0, -1);
   }
-  const titled = `${clipHead(clean || "Murfreesboro Chiropractic", TITLE_MAX - BRAND.length)}${BRAND}`;
-  return titled.length <= TITLE_MAX ? titled : `${clipHead(clean, TITLE_MAX - BRAND.length)}${BRAND}`;
+  return words.join(" ");
 }
 
-let reservedTitles: Set<string> | null = null;
+/** Keep a complete phrase. Never cuts mid-word, and drops a trailing
+ * preposition or auxiliary left behind by the cut. */
+function clipWords(head: string, max: number): string {
+  const clean = head.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return tidyEnding(clean);
+  const words = clean.split(" ");
+  let built = "";
+  for (const word of words) {
+    const next = built ? `${built} ${word}` : word;
+    if (next.length > max) break;
+    built = next;
+  }
+  const tidied = tidyEnding(built);
+  return tidied || words[0]?.slice(0, max) || "Murfreesboro Chiropractic";
+}
 
-function indexableReservedTitles(): Set<string> {
-  if (reservedTitles) return reservedTitles;
+function withoutLocation(text: string): string {
+  return text
+    .replace(/\s+in\s+Murfreesboro(?:,\s*TN|\s+TN)?/gi, "")
+    .replace(/,?\s*Murfreesboro(?:,\s*TN|\s+TN)?/gi, "")
+    .replace(/\s+/g, " ")
+    .replace(/\s+([,?:])/g, "$1")
+    .replace(/^[,\s]+|[,\s]+$/g, "")
+    .trim();
+}
+
+/** Drop fillers so the topic still fits, instead of cutting off the noun. */
+function compressFillers(text: string): string {
+  return text
+    .replace(/^(why your|how your|how to|when your|what your|choosing)\s+/i, "")
+    .replace(/\b(quietly|really|just|fast|simply|actually|actively)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function clauseLead(text: string): string | null {
+  const parts = text.split(/\s+[–—]\s+|\s+-\s+|:\s+|\?\s+/);
+  if (parts.length < 2) return null;
+  const lead = parts[0]?.trim() ?? "";
+  return lead.length >= 18 ? lead : null;
+}
+
+function fittingPhrase(text: string): string | null {
+  const tidy = tidyEnding(text);
+  if (tidy.length >= 18 && tidy.length <= HEAD_MAX) return tidy;
+  return null;
+}
+
+/**
+ * Shorten a CMS or Ranked headline to the head that fits before
+ * " | Rutherford". Prefers a full clause, then the same clause without the
+ * repeated city name, and only then a word-boundary cut.
+ */
+export function shortenTitleHead(raw: string): string {
+  let text = stripBrandSuffix(raw);
+  text = text.replace(/\bRutherford\b/gi, "").replace(/\s{2,}/g, " ").replace(/^[\s|:-]+|[\s|:-]+$/g, "").trim();
+  if (!text) return "Murfreesboro Chiropractic";
+  const direct = fittingPhrase(text);
+  if (direct && text.length <= HEAD_MAX) return direct;
+
+  const placed = withoutLocation(text);
+  const candidates = [clauseLead(text), placed, clauseLead(placed), compressFillers(placed), compressFillers(text)];
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    const fitted = fittingPhrase(candidate);
+    if (fitted) return fitted;
+  }
+
+  const source = compressFillers(placed.length >= 18 ? placed : text);
+  return clipWords(source.length >= 18 ? source : text, HEAD_MAX);
+}
+
+function brandHead(head: string): string {
+  const fitted = head.length <= HEAD_MAX ? head : clipWords(head, HEAD_MAX);
+  return `${fitted}${BRAND}`;
+}
+
+/**
+ * Titles already assigned to curated, location, and indexable neighborhood
+ * pages. Built once from source data and never updated per request, so a
+ * second render of the same slug cannot see a different set.
+ */
+const RESERVED_TITLES: ReadonlySet<string> = (() => {
   const reserved = new Set<string>(Object.values(PAGE_TITLES));
   for (const slug of getAllLocationSlugs()) {
     const title = locationLandingTitle(`/${slug}/`);
@@ -279,46 +363,50 @@ function indexableReservedTitles(): Set<string> {
       }),
     );
   }
-  reservedTitles = reserved;
   return reserved;
-}
+})();
 
-function fitUniqueTitle(path: string, raw: string): string {
-  const reserved = indexableReservedTitles();
-  let title = withSingleBrand(raw || "Murfreesboro Chiropractic");
-  if (!reserved.has(title)) {
-    reserved.add(title);
-    return title;
-  }
+const SKIP_SLUG_WORDS = new Set([
+  "minute", "minutes", "visit", "care", "pain", "relief", "treatment", "options",
+  "murfreesboro", "chiropractic", "spine", "with", "from", "that", "this", "your",
+  "what", "when", "have", "need", "needs", "just", "more", "most", "into", "over",
+  "about", "after", "before", "signs", "inside",
+]);
 
-  const slug = normalizePagePath(path).replace(/^\/|\/$/g, "").split("/").pop() || "page";
-  const hint = slug
+function slugPhrase(path: string, head: string): string {
+  const used = new Set(head.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean));
+  const slug = normalizePagePath(path).split("/").filter(Boolean).pop() ?? "page";
+  const words = slug
     .split("-")
-    .filter((word) => word.length > 2 && !/^\d+$/.test(word))
-    .slice(-2)
+    .filter((word) => word.length > 3 && !/^\d+$/.test(word) && !used.has(word) && !DANGLING_END.has(word) && !SKIP_SLUG_WORDS.has(word));
+  return words
+    .slice(0, 2)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-  const head = stripBrandSuffix(raw || hint || "Page");
-  const room = TITLE_MAX - BRAND.length - hint.length - 2;
-  title = `${clipHead(head, Math.max(12, room))}: ${hint}${BRAND}`;
-  if (title.length > TITLE_MAX || reserved.has(title)) {
-    const mark = String(Math.abs(hashPath(path) % 100)).padStart(2, "0");
-    title = `${clipHead(head, TITLE_MAX - BRAND.length - mark.length - 1)} ${mark}${BRAND}`;
-  }
-  reserved.add(title);
-  return title;
 }
 
-function hashPath(path: string): number {
-  let hash = 0;
-  for (let i = 0; i < path.length; i += 1) hash = (hash * 33 + path.charCodeAt(i)) >>> 0;
-  return hash;
+/** Pure function of path + raw title. Reserved titles are read-only. */
+function fitCmsTitle(path: string, raw: string): string {
+  const head = shortenTitleHead(raw || "Murfreesboro Chiropractic");
+  const title = brandHead(head);
+  if (!RESERVED_TITLES.has(title)) return title;
+
+  const phrase = slugPhrase(path, head);
+  if (phrase) {
+    const room = HEAD_MAX - phrase.length - 2;
+    const lead = room >= 12 ? clipWords(head, room) : "";
+    const combined = lead ? clipWords(`${lead}: ${phrase}`, HEAD_MAX) : clipWords(phrase, HEAD_MAX);
+    const alt = brandHead(combined);
+    if (!RESERVED_TITLES.has(alt)) return alt;
+  }
+
+  return title;
 }
 
 /**
  * Title that should render for an indexable path. Known pages win over CMS
  * copies of the old long templates. Unknown posts (CMS or Ranked) are
- * shortened, branded once, and kept distinct from titles already in use.
+ * shortened from their own slug and headline only.
  */
 export function resolveIndexableTitle(path: string, raw?: string | null): string {
   const key = normalizePagePath(path);
@@ -326,5 +414,5 @@ export function resolveIndexableTitle(path: string, raw?: string | null): string
   if (known) return known;
   const location = locationLandingTitle(key);
   if (location) return location;
-  return fitUniqueTitle(key, raw ?? "");
+  return fitCmsTitle(key, raw ?? "");
 }

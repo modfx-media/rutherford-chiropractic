@@ -1,9 +1,18 @@
 import { ORGANIZATION_ID, SCHEMA_ORIGIN, WEBSITE_ID } from "../../_lib/schema-ids";
 
-function absolute(pathOrUrl: string): string {
+function absolutePage(pathOrUrl: string): string {
   if (pathOrUrl.startsWith("http://") || pathOrUrl.startsWith("https://")) return pathOrUrl;
   const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
   return `${SCHEMA_ORIGIN}${path.endsWith("/") ? path : `${path}/`}`;
+}
+
+/** File URLs must not gain a trailing slash (`featured.jpg/`). */
+export function schemaAssetUrl(pathOrUrl: string): string {
+  const trimmed = pathOrUrl.trim();
+  const stripFileSlash = (value: string) => value.replace(/(\.[a-z0-9]{2,5})\/+(?=(?:[?#]|$))/gi, "$1");
+  if (/^https?:\/\//i.test(trimmed)) return stripFileSlash(trimmed);
+  const path = stripFileSlash(trimmed.startsWith("/") ? trimmed : `/${trimmed}`);
+  return `${SCHEMA_ORIGIN}${path}`;
 }
 
 /** One BlogPosting per article. Author is the clinic, not the old WordPress user. */
@@ -20,7 +29,7 @@ export function BlogPostingSchema({
   datePublished?: string | null;
   image?: string | null;
 }) {
-  const url = absolute(path);
+  const url = absolutePage(path);
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -37,7 +46,7 @@ export function BlogPostingSchema({
     data.datePublished = datePublished;
     data.dateModified = datePublished;
   }
-  if (image) data.image = absolute(image);
+  if (image) data.image = schemaAssetUrl(image);
 
   return (
     <script

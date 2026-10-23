@@ -56,20 +56,38 @@ for (const condition of CONDITIONS) {
   }
 }
 
-const fittedA = resolveIndexableTitle(
-  "/cms-only-alpha-post/",
-  "How Spinal Decompression Can Help with a Very Long CMS Title - Chiropractic Murfreesboro TN",
+const cmsRaw =
+  "How Spinal Decompression Can Help with a Very Long CMS Title - Chiropractic Murfreesboro TN";
+const fitted = Array.from({ length: 5 }, () =>
+  resolveIndexableTitle("/cms-only-alpha-post/", cmsRaw),
 );
-const fittedB = resolveIndexableTitle(
-  "/cms-only-beta-post/",
-  "How Spinal Decompression Can Help with a Very Long CMS Title - Chiropractic Murfreesboro TN",
-);
-check("fit", "/cms-only-alpha-post/", fittedA, "x".repeat(140));
-check("fit", "/cms-only-beta-post/", fittedB, "x".repeat(140));
-if (fittedA === fittedB) {
+if (new Set(fitted).size !== 1) {
   bad += 1;
-  console.log("fitted titles collided", fittedA);
+  console.log("cms title changed across calls", fitted);
 }
+const again = resolveIndexableTitle("/cms-only-alpha-post/", cmsRaw);
+if (again !== fitted[0]) {
+  bad += 1;
+  console.log("cms title changed after other work", again, fitted[0]);
+}
+check("fit", "/cms-only-alpha-post/", fitted[0], "x".repeat(140));
+if (/\b(After|What Expect|Very)\b\s*\|/.test(fitted[0]) || /\s(after|what|very|with|to|a)$/i.test(fitted[0].replace(/ \| Rutherford$/, ""))) {
+  bad += 1;
+  console.log("dangling cms title", fitted[0]);
+}
+const reservedClash = resolveIndexableTitle(
+  "/sciatica-morning-routine-10-minute-mobility/",
+  "Sciatica Treatment in Murfreesboro | Rutherford Spine & Wellness Center",
+);
+const reservedAgain = resolveIndexableTitle(
+  "/sciatica-morning-routine-10-minute-mobility/",
+  "Sciatica Treatment in Murfreesboro | Rutherford Spine & Wellness Center",
+);
+if (reservedClash !== reservedAgain || reservedClash === PAGE_TITLES["/sciatica/"]) {
+  bad += 1;
+  console.log("reserved clash not stable", reservedClash, reservedAgain);
+}
+check("fit", "/sciatica-morning-routine-10-minute-mobility/", reservedClash, "x".repeat(140));
 
 let indexable = 0;
 for (const p of getAllPseoParams()) {
