@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { JsonLdBlocks } from "../../_lib/JsonLdBlocks";
-import type { JsonLd } from "../../_lib/content-map";
 import { RankedBlogPostTemplate } from "../../_ui/blog/RankedBlogPostTemplate";
 import { metadataWithCMS } from "@/lib/cms/metadata";
 import { queryArticleBySlug, queryRoutedContentByPath } from "@/lib/cms/queries";
@@ -73,25 +71,7 @@ export default async function CmsRootArticlePage({ params }: PageProps) {
 
   const ranked = await getPublishedBlogPost(slug);
   if (ranked) {
-    const jsonLd: JsonLd = {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      headline: ranked.title,
-      description: ranked.metaDescription,
-      datePublished: ranked.publishDate,
-      image: ranked.coverImage,
-      mainEntityOfPage: `${SITE_ORIGIN}/${ranked.slug}/`,
-      author: {
-        "@type": "Organization",
-        name: "Rutherford Spine & Wellness Center",
-      },
-    };
-    return (
-      <>
-        <JsonLdBlocks blocks={[jsonLd]} />
-        <RankedBlogPostTemplate post={ranked} />
-      </>
-    );
+    return <RankedBlogPostTemplate post={ranked} />;
   }
 
   notFound();

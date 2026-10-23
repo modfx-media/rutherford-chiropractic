@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import type { JsonLd } from "./content-map";
 import type { Condition } from "./conditions";
-import { businessInfo } from "../_ui/nav";
 import { ORIGIN, DEFAULT_OG_IMAGE } from "./content-map";
+import { ORGANIZATION_ID } from "./schema-ids";
 
 /**
  * Builds Next.js `Metadata` for a dedicated condition page. Unlike the
@@ -60,17 +60,7 @@ export function conditionJsonLd(condition: Condition): JsonLd[] {
         "@type": "WebPageElement",
         cssSelector: "main",
       },
-      publisher: {
-        "@type": "MedicalBusiness",
-        name: "Rutherford Spine & Wellness Center",
-        telephone: businessInfo.phone,
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: businessInfo.address.line1,
-          addressLocality: "Murfreesboro",
-          addressRegion: "TN",
-        },
-      },
+      publisher: { "@id": ORGANIZATION_ID },
     },
     {
       "@context": "https://schema.org",

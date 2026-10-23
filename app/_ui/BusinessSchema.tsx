@@ -1,13 +1,13 @@
 /**
  * Business-wide JSON-LD for local SEO.
  *
- * Emitted once from the root layout so every route ships with the same
- * MedicalClinic signal. MedicalClinic is a subtype of LocalBusiness, so
- * Google/Bing treat this as both. Live Google totals + visible 5-star
- * quotes come from the same cached Places fetch as the reviews UI.
+ * Emitted once from the root layout: one Chiropractor (a LocalBusiness)
+ * and one WebSite. Review quotes come from the same cached Places fetch
+ * as the reviews UI. There is no site search, so WebSite has no SearchAction.
  */
 
 import { getDisplayedGoogleReviews } from "@/lib/google-reviews";
+import { ORGANIZATION_ID, SCHEMA_ORIGIN, WEBSITE_ID } from "../_lib/schema-ids";
 import { businessInfo } from "./nav";
 
 export async function BusinessSchema() {
@@ -15,16 +15,16 @@ export async function BusinessSchema() {
 
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": "MedicalClinic",
-    "@id": "https://rutherfordchiropractic.com/#organization",
+    "@type": ["Chiropractor", "LocalBusiness"],
+    "@id": ORGANIZATION_ID,
     name: "Rutherford Spine & Wellness Center",
     alternateName: "Rutherford Spine and Wellness",
-    url: "https://rutherfordchiropractic.com/",
+    url: `${SCHEMA_ORIGIN}/`,
     telephone: "+16152170097",
     faxNumber: "+16158480038",
     email: businessInfo.email,
-    image: "https://rutherfordchiropractic.com/brand/rutherford-logo.png",
-    logo: "https://rutherfordchiropractic.com/brand/rutherford-logo.png",
+    image: `${SCHEMA_ORIGIN}/brand/rutherford-logo.png`,
+    logo: `${SCHEMA_ORIGIN}/brand/rutherford-logo.png`,
     priceRange: "$$",
     address: {
       "@type": "PostalAddress",
@@ -83,11 +83,20 @@ export async function BusinessSchema() {
     }));
   }
 
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    url: `${SCHEMA_ORIGIN}/`,
+    name: "Rutherford Spine & Wellness Center",
+    publisher: { "@id": ORGANIZATION_ID },
+    inLanguage: "en-US",
+  };
+
   return (
-    <script
-      type="application/ld+json"
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }} />
+    </>
   );
 }

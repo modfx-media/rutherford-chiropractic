@@ -19,6 +19,8 @@ import { rankedPostToMeta } from "../../_lib/ranked-blog"
 import { CalendarIcon, ClockIcon, TagIcon } from "../icons"
 import type { BlogPostData } from "@/lib/ranked/types"
 import { BreadcrumbSchema } from "../BreadcrumbSchema"
+import { BlogPostingSchema } from "./BlogPostingSchema"
+import { BlogTopicLinks } from "./BlogTopicLinks"
 
 function MarkdownText({ text }: { text: string }) {
   const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g)
@@ -56,6 +58,13 @@ export function RankedBlogPostTemplate({ post }: { post: BlogPostData }) {
 
   return (
     <main>
+      <BlogPostingSchema
+        headline={post.h1 || post.title}
+        description={post.metaDescription || post.intro}
+        path={`/${post.slug}/`}
+        datePublished={post.publishDate ? `${post.publishDate}T12:00:00.000Z` : null}
+        image={meta.featuredImage?.src}
+      />
       <ReadingProgressBar />
 
       <section className="surface-dark relative isolate overflow-hidden pt-14 pb-10 sm:pt-20 sm:pb-12 lg:pt-28 lg:pb-20">
@@ -82,7 +91,7 @@ export function RankedBlogPostTemplate({ post }: { post: BlogPostData }) {
               items={[
                 { name: "Home", path: "/" },
                 { name: "Blog", path: "/blog/" },
-                { name: post.title, path: `/blog/${post.slug}/` },
+                { name: post.title, path: `/${post.slug}/` },
               ]}
             />
             <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-white/60">
@@ -158,6 +167,7 @@ export function RankedBlogPostTemplate({ post }: { post: BlogPostData }) {
                 </Fragment>
               ))}
             </div>
+            <BlogTopicLinks slug={post.slug} title={post.title} />
 
             <Reveal as="div" className="surface-card mt-14 flex flex-col items-center gap-4 bg-[color:var(--color-surface-muted)] p-8 text-center sm:flex-row sm:justify-between sm:text-left">
               <div>

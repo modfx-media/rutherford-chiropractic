@@ -29,6 +29,7 @@ import { FaqAccordion } from "../conditions/FaqAccordion";
 import { HeroBgImage } from "../HeroBgImage";
 import { heroBgForService } from "../../_lib/hero-images";
 import { BreadcrumbSchema } from "../BreadcrumbSchema";
+import { RelatedFromBlog } from "../blog/RelatedFromBlog";
 import { getLocationsForService } from "../../_lib/locations";
 import type { ServicePageData, ServiceSection as ServiceSectionData } from "../../_lib/services";
 
@@ -52,6 +53,7 @@ export function ServicePageTemplate({ data }: { data: ServicePageData }) {
       <ServiceFaqSection data={data} />
       <ServiceLocationsSection data={data} />
       {data.outro && <ServiceOutro text={data.outro} />}
+      <RelatedFromBlog pageSlug={data.slug} />
       <ServiceCta data={data} />
     </main>
   );

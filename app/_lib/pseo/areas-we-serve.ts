@@ -1,26 +1,19 @@
+import { getCustomPseoContent } from "./city-content";
 import { PSEO_CONDITIONS } from "./conditions";
 import { getNeighborhood } from "./neighborhoods";
-import { getPseoAudience } from "./audiences";
 import { PSEO_COMBINATIONS } from "./combinations";
-import { PSEO_AUDIENCE_COMBINATIONS } from "./audience-content";
 
 /**
- * Data helper for the `/areas-we-serve/` hub page — groups every pSEO page
- * (both the 250 `/{condition}/{city}/` pages and the 1,250
- * `/{condition}/{city}/{audience}/` pages) by city so the page can render a
- * full, crawlable directory without hand-maintaining a separate link list.
- * Reads straight from `combinations.ts` / `audience-content.ts`, so it stays
- * accurate as those datasets grow.
+ * Data helper for the `/areas-we-serve/` hub page. Lists indexable
+ * condition × neighborhood pages (hand-written city copy only). Audience
+ * URLs are noindex, so this hub does not link to them.
  */
-
-export type AreaAudienceLink = { label: string; href: string };
 
 export type AreaConditionEntry = {
   conditionSlug: string;
   conditionName: string;
   neighborhoodName: string;
   href: string;
-  audienceLinks: AreaAudienceLink[];
 };
 
 export type AreaCityGroup = {
@@ -49,32 +42,26 @@ export function buildAreasWeServe(): AreaCityGroup[] {
     const conditions: AreaConditionEntry[] = [];
 
     for (const condition of PSEO_CONDITIONS) {
-      const baseCombo = PSEO_COMBINATIONS.find((c) => {
+      const cityCombos = PSEO_COMBINATIONS.filter((c) => {
         if (c.conditionSlug !== condition.slug) return false;
         return getNeighborhood(c.neighborhoodSlug)?.citySlug === citySlug;
       });
+      const baseCombo = cityCombos.find((c) =>
+        getCustomPseoContent(condition.slug, c.neighborhoodSlug),
+      );
       if (!baseCombo) continue;
 
       const neighborhood = getNeighborhood(baseCombo.neighborhoodSlug);
       if (!neighborhood) continue;
-
-      const audienceLinks: AreaAudienceLink[] = PSEO_AUDIENCE_COMBINATIONS.filter((c) => {
-        if (c.conditionSlug !== condition.slug) return false;
-        return getNeighborhood(c.neighborhoodSlug)?.citySlug === citySlug;
-      }).map((c) => ({
-        label: getPseoAudience(c.audienceSlug)?.label ?? c.audienceSlug,
-        href: `/${c.conditionSlug}/${c.neighborhoodSlug}/${c.audienceSlug}/`,
-      }));
 
       conditions.push({
         conditionSlug: condition.slug,
         conditionName: condition.name,
         neighborhoodName: neighborhood.name,
         href: `/${baseCombo.conditionSlug}/${baseCombo.neighborhoodSlug}/`,
-        audienceLinks,
       });
     }
 
     return { citySlug, cityName, conditions };
-  });
+  }).filter((city) => city.conditions.length > 0);
 }
