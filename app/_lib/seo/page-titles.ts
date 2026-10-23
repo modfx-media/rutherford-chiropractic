@@ -196,6 +196,58 @@ export const PAGE_TITLES: Record<string, string> = {
   ),
 };
 
+/**
+ * Hand-written titles for CMS headlines the shortener cannot phrase on its
+ * own (a city-only stub, a verbless fragment, or a reserved-title collision
+ * that would append a bare noun). Checked before shortening. Each value is
+ * one complete phrase, at most 60 characters, with the brand once.
+ */
+export const CMS_TITLE_OVERRIDES: Record<string, string> = {
+  "/chronic-pain-in-murfreesboro-how-to-talk-to-your-doctor-about-treatment/": brand(
+    "How to Discuss Chronic Pain With Your Doctor",
+  ),
+  "/chronic-pain-red-flags-in-murfreesboro-when-chiropractors-should-refer/": brand(
+    "When Chronic Pain Needs a Referral",
+  ),
+  "/chronic-pain-relief-in-murfreesboro-self-assessment-to-find-the-cause/": brand(
+    "A Self-Check for Chronic Pain Causes",
+  ),
+  "/first-spinal-decompression-visit-in-murfreesboro-what-to-expect/": brand(
+    "What the First Decompression Visit Covers",
+  ),
+  "/hidden-joint-pain-triggers-active-murfreesboro-residents-overlook/": brand(
+    "Joint Pain Triggers That Are Easy to Miss",
+  ),
+  "/inside-neuropathy-treatment-in-murfreesboro-without-drugs/": brand(
+    "Neuropathy Treatment Without Medication",
+  ),
+  "/massage-therapy-and-chiropractic-care-for-joint-pain-relief-in-murfreesboro/": brand(
+    "Massage and Chiropractic for Joint Pain",
+  ),
+  "/non-drug-chronic-pain-relief-in-murfreesboro-7-day-movement-plan/": brand(
+    "A 7-Day Movement Plan for Chronic Pain",
+  ),
+  "/preventing-summer-sports-injuries-in-murfreesboro-warm-ups-and-prehab/": brand(
+    "Warm-Ups That Help Prevent Sports Injuries",
+  ),
+  "/questioning-back-pain-relief-plan/": brand("Questions to Ask About a Back Pain Plan"),
+  "/questioning-your-back-pain-relief-plan-in-murfreesboro-tn/": brand(
+    "Review Your Back Pain Relief Plan",
+  ),
+  "/questioning-fibromyalgia-when-to-explore-chiropractic-care/": brand(
+    "When to Try Chiropractic for Fibromyalgia",
+  ),
+  "/sciatica-morning-routine-10-minute-mobility-to-reduce-nerve-irritation/": brand(
+    "A 10-Minute Morning Routine for Sciatica",
+  ),
+  "/sciatica-while-driving-in-murfreesboro-seat-setup-posture-treatment/": brand(
+    "Seat Setup for Sciatica While Driving",
+  ),
+  "/when-neck-pain-after-a-car-accident-means-you-need-a-chiropractor/": brand(
+    "When Neck Pain After a Crash Needs Care",
+  ),
+};
+
 export function normalizePagePath(path: string): string {
   const withLead = path.startsWith("/") ? path : `/${path}`;
   return withLead.endsWith("/") ? withLead : `${withLead}/`;
@@ -297,17 +349,51 @@ function compressFillers(text: string): string {
     .trim();
 }
 
-function clauseLead(text: string): string | null {
-  const parts = text.split(/\s+[–—]\s+|\s+-\s+|:\s+|\?\s+/);
+function cityStub(text: string): boolean {
+  return /(?:in|,)\s+Murfreesboro(?:,?\s*TN)?$/i.test(text);
+}
+
+/**
+ * Pick the clause that can stand alone. A lead that is only "Topic in
+ * Murfreesboro" loses to the more specific clause after the colon.
+ */
+function bestClause(text: string): string | null {
+  const parts = text.split(/\s+[–—]\s+|\s+-\s+|:\s+|\?\s+/).map((part) => part.trim()).filter(Boolean);
   if (parts.length < 2) return null;
-  const lead = parts[0]?.trim() ?? "";
-  return lead.length >= 18 ? lead : null;
+  const left = parts[0];
+  const right = parts.slice(1).join(": ");
+  const leftFit = fittingPhrase(left);
+  const rightFit = fittingPhrase(right);
+  if (cityStub(left) && rightFit) return rightFit;
+  if (leftFit && !cityStub(left)) {
+    const leftWords = leftFit.split(/\s+/).length;
+    if (leftWords <= 3 && rightFit && rightFit.length > leftFit.length) return rightFit;
+    return leftFit;
+  }
+  if (rightFit) return rightFit;
+  return leftFit;
 }
 
 function fittingPhrase(text: string): string | null {
   const tidy = tidyEnding(text);
   if (tidy.length >= 18 && tidy.length <= HEAD_MAX) return tidy;
   return null;
+}
+
+/**
+ * "When Neck Pain After a Car Accident" has no verb, so the opener is
+ * dropped. Infinitive titles ("When to See a Chiropractor") stay whole,
+ * and a strip that would leave "to…" or "a…" is rejected.
+ */
+function withoutFragmentPrefix(text: string): string {
+  if (/^(when|while|if|after)\s+to\b/i.test(text)) return text;
+  const stripped = text.replace(/^(when|while|if|after)\s+/i, "");
+  if (stripped === text) return text;
+  if (/^(to|a|an|the)\b/i.test(stripped)) return text;
+  if (/\b(is|are|was|were|means|needs|need|should|can|may|might|hurts|helps|makes)\b/i.test(text)) {
+    return text;
+  }
+  return fittingPhrase(stripped) ?? text;
 }
 
 /**
@@ -323,15 +409,15 @@ export function shortenTitleHead(raw: string): string {
   if (direct && text.length <= HEAD_MAX) return direct;
 
   const placed = withoutLocation(text);
-  const candidates = [clauseLead(text), placed, clauseLead(placed), compressFillers(placed), compressFillers(text)];
+  const candidates = [bestClause(text), placed, bestClause(placed), compressFillers(placed), compressFillers(text)];
   for (const candidate of candidates) {
     if (!candidate) continue;
-    const fitted = fittingPhrase(candidate);
+    const fitted = fittingPhrase(withoutFragmentPrefix(candidate));
     if (fitted) return fitted;
   }
 
   const source = compressFillers(placed.length >= 18 ? placed : text);
-  return clipWords(source.length >= 18 ? source : text, HEAD_MAX);
+  return withoutFragmentPrefix(clipWords(source.length >= 18 ? source : text, HEAD_MAX));
 }
 
 function brandHead(head: string): string {
@@ -362,6 +448,15 @@ const RESERVED_TITLES: ReadonlySet<string> = (() => {
         placeName: neighborhood.name,
       }),
     );
+  }
+  for (const [path, title] of Object.entries(CMS_TITLE_OVERRIDES)) {
+    if (title.length > TITLE_MAX || !title.endsWith(BRAND) || (title.match(/Rutherford/g) || []).length !== 1) {
+      throw new Error(`CMS title override must be a short branded phrase: ${path} (${title.length}) ${title}`);
+    }
+    if (reserved.has(title) || PAGE_TITLES[path]) {
+      throw new Error(`CMS title override collides with a curated title: ${path} ${title}`);
+    }
+    reserved.add(title);
   }
   return reserved;
 })();
@@ -414,5 +509,7 @@ export function resolveIndexableTitle(path: string, raw?: string | null): string
   if (known) return known;
   const location = locationLandingTitle(key);
   if (location) return location;
+  const override = CMS_TITLE_OVERRIDES[key];
+  if (override) return override;
   return fitCmsTitle(key, raw ?? "");
 }
