@@ -8,6 +8,8 @@ import { featuredImageForDoc } from "@/lib/cms/media"
 import { queryArticleBySlug } from "@/lib/cms/queries"
 import { RenderRoutedContent } from "@/lib/cms/RenderRoutedContent"
 import type { RoutedContent } from "@/lib/cms/types"
+import { resolveIndexableTitle } from "../../../_lib/seo/page-titles"
+import { withAbsoluteMeta } from "../../../_lib/seo/absolute-meta"
 
 // Empty generateStaticParams plus draftMode() prerendered this route as a
 // static 500 for every slug. Render on demand so a post appears the day it
@@ -31,18 +33,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = await getPublishedBlogPost(slug)
   if (!post) return {}
   const url = `${SITE_ORIGIN}/${post.slug}/`
-  return {
-    title: post.title,
-    description: post.metaDescription,
-    alternates: { canonical: url },
-    openGraph: {
-      title: post.title,
+  const title = resolveIndexableTitle(`/${post.slug}/`, post.title)
+  return withAbsoluteMeta(
+    {
       description: post.metaDescription,
-      url,
-      type: "article",
-      images: post.coverImage ? [post.coverImage] : undefined,
+      alternates: { canonical: url },
+      openGraph: {
+        url,
+        type: "article",
+        images: post.coverImage ? [post.coverImage] : undefined,
+      },
     },
-  }
+    title,
+    post.metaDescription,
+  )
 }
 
 export default async function RankedBlogPostPage({ params }: PageProps) {

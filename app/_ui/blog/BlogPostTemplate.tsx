@@ -26,6 +26,8 @@ import {
 } from "../../_lib/blog";
 import { CalendarIcon, ClockIcon, TagIcon } from "../icons";
 import { BreadcrumbSchema } from "../BreadcrumbSchema";
+import { BlogPostingSchema } from "./BlogPostingSchema";
+import { BlogTopicLinks } from "./BlogTopicLinks";
 
 export function BlogPostTemplate({
   post,
@@ -40,6 +42,13 @@ export function BlogPostTemplate({
 
   return (
     <main>
+      <BlogPostingSchema
+        headline={post.title}
+        description={post.excerpt}
+        path={post.path}
+        datePublished={post.publishedAt}
+        image={post.featuredImage?.src}
+      />
       <ReadingProgressBar />
 
       <section className="surface-dark relative isolate overflow-hidden pt-14 pb-10 sm:pt-20 sm:pb-12 lg:pt-28 lg:pb-20">
@@ -134,6 +143,7 @@ export function BlogPostTemplate({
               className="blog-prose"
               dangerouslySetInnerHTML={{ __html: bodyHtml }}
             />
+            <BlogTopicLinks slug={post.slug} title={post.title} />
 
             <Reveal as="div" className="surface-card mt-14 flex flex-col items-center gap-4 bg-[color:var(--color-surface-muted)] p-8 text-center sm:flex-row sm:justify-between sm:text-left">
               <div>

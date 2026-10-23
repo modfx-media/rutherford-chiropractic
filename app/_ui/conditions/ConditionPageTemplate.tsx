@@ -24,6 +24,7 @@ import { heroBgForCondition } from "../../_lib/hero-images";
 import type { Condition } from "../../_lib/conditions";
 import { businessInfo } from "../nav";
 import { BreadcrumbSchema } from "../BreadcrumbSchema";
+import { RelatedFromBlog } from "../blog/RelatedFromBlog";
 
 export function ConditionPageTemplate({ condition }: { condition: Condition }) {
   return (
@@ -35,6 +36,7 @@ export function ConditionPageTemplate({ condition }: { condition: Condition }) {
       <TreatmentSection condition={condition} />
       <BenefitsSection condition={condition} />
       <FaqSection condition={condition} />
+      <RelatedFromBlog pageSlug={condition.slug} />
       <ConditionCta condition={condition} />
     </main>
   );

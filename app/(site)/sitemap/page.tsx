@@ -11,15 +11,20 @@ export const revalidate = 300;
 // Route: /sitemap/
 // A human-readable directory of the site, grouped by section — the HTML
 // counterpart to the machine-readable `/sitemap.xml` (see `app/sitemap.ts`).
-// The 1,500 pSEO condition/city/audience pages are covered in bulk via a
-// link to `/areas-we-serve/` (which already lists all of them individually)
-// rather than duplicating that same huge link list on a second page.
+// Indexable condition × neighborhood pages are linked from `/areas-we-serve/`.
+// Noindexed audience URLs are omitted so this indexable page does not point at them.
 
 const fallbackMetadata: Metadata = {
-  title: "Sitemap | Rutherford Spine & Wellness",
+  title: { absolute: "Sitemap | Rutherford" },
   description:
     "Browse every page on the Rutherford Spine & Wellness Center website, organized by section - services, conditions, locations, blog, and more.",
   alternates: { canonical: `${ORIGIN}/sitemap/` },
+  openGraph: {
+    title: "Sitemap | Rutherford",
+    description:
+      "Browse every page on the Rutherford Spine & Wellness Center website, organized by section - services, conditions, locations, blog, and more.",
+    url: `${ORIGIN}/sitemap/`,
+  },
 };
 
 export async function generateMetadata() {
@@ -91,8 +96,7 @@ export default function Page() {
             <span className="eyebrow">Local Care Pages</span>
             <h2 className="h-section mt-3">Condition &amp; City Care Pages</h2>
             <p className="mt-4 max-w-2xl text-[color:var(--color-body)] leading-relaxed">
-              We also maintain over 1,500 condition-specific pages covering every city and
-              patient type we serve. Browse the full directory on our{" "}
+              Condition pages for the cities we serve are listed on our{" "}
               <Link
                 href="/areas-we-serve/"
                 className="font-medium text-[color:var(--color-brand-orange)] underline-offset-4 hover:underline"

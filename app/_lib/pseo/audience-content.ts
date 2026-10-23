@@ -4,6 +4,7 @@ import { getNeighborhood, type Neighborhood } from "./neighborhoods";
 import { getPseoAudience, PSEO_AUDIENCES, type PseoAudience } from "./audiences";
 import { getLocationPage, getServiceMeta } from "../locations";
 import type { PseoPageContent } from "./content";
+import { pseoDescription, pseoTitle } from "./titles";
 
 /**
  * 3rd content taxonomy layer: `/{condition}/{city}/{audience}/` pages,
@@ -170,8 +171,21 @@ export function buildPseoAudienceContent(params: PseoAudiencePageParams): PseoPa
   const serviceLabel = service?.h1 ?? condition.name;
 
   const h1 = `${condition.name} Care for ${audience.label} in ${neighborhood.name}, ${neighborhood.cityName} TN`;
-  const metaTitle = `${condition.name} Treatment for ${audience.label} in ${neighborhood.name}, ${neighborhood.cityName} TN | Rutherford Spine & Wellness`;
-  const metaDescription = `${audience.label} in ${neighborhood.name}, ${neighborhood.cityName} dealing with ${condition.mentionPhrase}? Dr. Wesley Stewart offers non-invasive, drug-free treatment plans tailored to your daily demands. Schedule your consultation today.`;
+  const metaTitle = pseoTitle({
+    conditionName: condition.name,
+    placeSlug: neighborhood.slug,
+    placeName: neighborhood.name,
+    audienceSlug: audience.slug,
+    audienceLabel: audience.label,
+  });
+  const metaDescription = pseoDescription({
+    conditionName: condition.name,
+    mention: condition.mentionPhrase,
+    placeSlug: neighborhood.slug,
+    placeName: neighborhood.name,
+    cityName: neighborhood.cityName,
+    audienceLabel: audience.label,
+  });
 
   const locationSlug = `${serviceSlug}-${neighborhood.citySlug}-tn`;
   const hasLocationPage = Boolean(getLocationPage(locationSlug));

@@ -7,15 +7,20 @@ import { Reveal } from "../../_ui/motion/primitives";
 import { metadataWithCMS } from "@/lib/cms/metadata";
 
 // Route: /areas-we-serve/
-// A crawlable directory of every pSEO page — the 250 `/{condition}/{city}/`
-// pages and the 1,250 `/{condition}/{city}/{audience}/` pages — grouped by
-// the 10 cities we target. Linked from the footer's Quick Links column.
+// Directory of indexable condition × neighborhood pages, grouped by city.
+// Audience URLs are noindex and are not linked from this page.
 
 const fallbackMetadata: Metadata = {
-  title: "Areas We Serve | Rutherford Spine & Wellness",
+  title: { absolute: "Areas We Serve | Rutherford" },
   description:
-    "Rutherford Spine & Wellness Center serves patients throughout Murfreesboro, Smyrna, La Vergne, Lebanon, Franklin, Brentwood, Nashville, Shelbyville, Woodbury, and Eagleville, TN - browse condition-specific care pages for your city.",
+    "Condition pages for Murfreesboro, Smyrna, Franklin, Nashville, and nearby Tennessee cities. Rutherford Spine & Wellness. Call 615-217-0097.",
   alternates: { canonical: `${ORIGIN}/areas-we-serve/` },
+  openGraph: {
+    title: "Areas We Serve | Rutherford",
+    description:
+      "Condition pages for Murfreesboro, Smyrna, Franklin, Nashville, and nearby Tennessee cities. Rutherford Spine & Wellness. Call 615-217-0097.",
+    url: `${ORIGIN}/areas-we-serve/`,
+  },
 };
 
 export async function generateMetadata() {
@@ -45,33 +50,13 @@ export default function Page() {
 
               <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {city.conditions.map((condition) => (
-                  <details
+                  <Link
                     key={condition.conditionSlug}
-                    className="surface-card hover-lift group bg-white p-5"
+                    href={condition.href}
+                    className="surface-card hover-lift group bg-white p-5 font-medium text-[color:var(--color-brand-navy)] hover:text-[color:var(--color-brand-orange)]"
                   >
-                    <summary className="cursor-pointer list-none font-medium text-[color:var(--color-brand-navy)]">
-                      <Link
-                        href={condition.href}
-                        className="hover:text-[color:var(--color-brand-orange)]"
-                      >
-                        {condition.conditionName} in {condition.neighborhoodName}
-                      </Link>
-                    </summary>
-                    {condition.audienceLinks.length > 0 && (
-                      <ul className="mt-3 space-y-2 border-t border-[color:var(--color-border)] pt-3 text-sm">
-                        {condition.audienceLinks.map((audience) => (
-                          <li key={audience.href}>
-                            <Link
-                              href={audience.href}
-                              className="text-[color:var(--color-body)] hover:text-[color:var(--color-brand-orange)]"
-                            >
-                              {condition.conditionName} for {audience.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </details>
+                    {condition.conditionName} in {condition.neighborhoodName}
+                  </Link>
                 ))}
               </div>
             </Reveal>

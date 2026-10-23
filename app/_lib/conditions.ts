@@ -18,6 +18,8 @@
  *   - a "Conditions" nav dropdown entry (see `app/_ui/nav.ts`)
  */
 
+import { requirePageTitle } from "./seo/page-titles";
+
 export type ConditionFaq = { question: string; answer: string };
 export type ConditionTreatment = { title: string; description: string };
 
@@ -132,7 +134,7 @@ export const CONDITIONS: Condition[] = [
       },
     ],
     relatedService: { label: "Spinal Decompression", href: "/spinal-decompression/" },
-    metaTitle: "Sciatica Treatment in Murfreesboro, TN | Rutherford Spine & Wellness",
+    metaTitle: requirePageTitle("/sciatica/"),
     metaDescription:
       "Sciatica relief in Murfreesboro, TN. Non-invasive chiropractic care and spinal decompression to calm nerve pain that radiates from your back into your leg.",
   },
@@ -225,7 +227,7 @@ export const CONDITIONS: Condition[] = [
       },
     ],
     relatedService: { label: "Spinal Decompression", href: "/spinal-decompression/" },
-    metaTitle: "Herniated & Bulging Disc Care in Murfreesboro, TN | Rutherford Spine & Wellness",
+    metaTitle: requirePageTitle("/herniated-disc/"),
     metaDescription:
       "Non-surgical relief for herniated and bulging discs in Murfreesboro, TN. Spinal decompression and chiropractic care to take pressure off irritated nerves.",
   },
@@ -319,7 +321,7 @@ export const CONDITIONS: Condition[] = [
       },
     ],
     relatedService: { label: "Chiropractic Care", href: "/chiropractic/" },
-    metaTitle: "Migraine & Headache Relief in Murfreesboro, TN | Rutherford Spine & Wellness",
+    metaTitle: requirePageTitle("/migraines-headaches/"),
     metaDescription:
       "Non-invasive migraine and headache relief in Murfreesboro, TN. Chiropractic care and spinal decompression that target neck misalignment and nerve irritation.",
   },
@@ -412,7 +414,7 @@ export const CONDITIONS: Condition[] = [
       },
     ],
     relatedService: { label: "Auto Injury Care", href: "/auto-injuries/" },
-    metaTitle: "Whiplash Treatment in Murfreesboro, TN | Rutherford Spine & Wellness",
+    metaTitle: requirePageTitle("/whiplash/"),
     metaDescription:
       "Whiplash treatment in Murfreesboro, TN after auto accidents, sports collisions, or falls. Chiropractic care and spinal decompression for lasting neck relief.",
   },
@@ -505,7 +507,7 @@ export const CONDITIONS: Condition[] = [
       },
     ],
     relatedService: { label: "Neuropathy Care", href: "/neuropathy/" },
-    metaTitle: "Arthritis & Nerve Numbness Care in Murfreesboro, TN | Rutherford Spine & Wellness",
+    metaTitle: requirePageTitle("/arthritis/"),
     metaDescription:
       "Relief for arthritis-related joint pain and nerve numbness in Murfreesboro, TN. Spinal decompression and chiropractic care to ease compressed nerves.",
   },
@@ -598,7 +600,7 @@ export const CONDITIONS: Condition[] = [
       },
     ],
     relatedService: { label: "Spinal Decompression", href: "/spinal-decompression/" },
-    metaTitle: "Degenerative Disc Disease Care in Murfreesboro, TN | Rutherford Spine & Wellness",
+    metaTitle: requirePageTitle("/degenerative-disc-disease/"),
     metaDescription:
       "Non-surgical care for degenerative disc disease in Murfreesboro, TN. Spinal decompression and chiropractic care to relieve chronic neck and back stiffness.",
   },
@@ -691,7 +693,7 @@ export const CONDITIONS: Condition[] = [
       },
     ],
     relatedService: { label: "Sports Injury Care", href: "/sports-injuries/" },
-    metaTitle: "Joint Pain & Stiffness Relief in Murfreesboro, TN | Rutherford Spine & Wellness",
+    metaTitle: requirePageTitle("/joint-pain/"),
     metaDescription:
       "Relief for joint pain, popping, and stiffness in Murfreesboro, TN. Chiropractic care that addresses the alignment issues behind chronic joint discomfort.",
   },

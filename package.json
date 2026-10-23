@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:titles": "node --import tsx --test app/_lib/seo/page-titles.test.ts",
     "payload": "payload",
     "generate:importmap": "node scripts/run-cms.mjs scripts/cms-generate.ts importmap",
     "generate:types": "node scripts/run-cms.mjs scripts/cms-generate.ts types",

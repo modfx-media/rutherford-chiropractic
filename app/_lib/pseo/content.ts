@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import type { JsonLd } from "../content-map";
-import { businessInfo } from "../../_ui/nav";
+import { withAbsoluteMeta } from "../seo/absolute-meta";
 import { ORIGIN, DEFAULT_OG_IMAGE } from "../content-map";
 import { PSEO_CONDITIONS, getPseoCondition, type PseoFaq } from "./conditions";
 import { NEIGHBORHOODS, getNeighborhood, type Neighborhood } from "./neighborhoods";
 import { PSEO_COMBINATIONS, isApprovedPseoCombo } from "./combinations";
 import { getCustomPseoContent } from "./city-content";
 import { getLocationPage, getServiceMeta } from "../locations";
+import { ORGANIZATION_ID } from "../schema-ids";
+import { pseoDescription, pseoTitle } from "./titles";
 
 /**
  * Assembly layer for the `/{condition}/{neighborhood}/` pSEO pages. Reads
@@ -97,8 +99,18 @@ export function buildPseoContent(params: PseoPageParams): PseoPageContent | unde
   const serviceLabel = service?.h1 ?? condition.name;
 
   const h1 = `${condition.name} Relief in ${neighborhood.name}, ${neighborhood.cityName} TN`;
-  const metaTitle = `${condition.name} Treatment in ${neighborhood.name}, ${neighborhood.cityName} TN | Rutherford Spine & Wellness`;
-  const metaDescription = `Struggling with ${condition.mentionPhrase} in ${neighborhood.name}, ${neighborhood.cityName}? Dr. Wesley Stewart offers non-invasive, drug-free treatment plans backed by 29 years of experience. Schedule your consultation today.`;
+  const metaTitle = pseoTitle({
+    conditionName: condition.name,
+    placeSlug: neighborhood.slug,
+    placeName: neighborhood.name,
+  });
+  const metaDescription = pseoDescription({
+    conditionName: condition.name,
+    mention: condition.mentionPhrase,
+    placeSlug: neighborhood.slug,
+    placeName: neighborhood.name,
+    cityName: neighborhood.cityName,
+  });
 
   const locationSlug = `${serviceSlug}-${neighborhood.citySlug}-tn`;
   const hasLocationPage = Boolean(getLocationPage(locationSlug));
@@ -136,13 +148,14 @@ export function isIndexablePseoPage(content: PseoPageContent): boolean {
 }
 
 export function enforcePseoIndexing(meta: Metadata, content: PseoPageContent): Metadata {
-  if (isIndexablePseoPage(content)) return meta;
-  return { ...meta, robots: { index: false, follow: true } };
+  const titled = withAbsoluteMeta(meta, content.metaTitle, content.metaDescription);
+  if (isIndexablePseoPage(content)) return titled;
+  return { ...titled, robots: { index: false, follow: true } };
 }
 
 export function pseoMetadata(content: PseoPageContent): Metadata {
   return {
-    title: content.metaTitle,
+    title: { absolute: content.metaTitle },
     description: content.metaDescription,
     alternates: { canonical: content.canonical },
     robots: isIndexablePseoPage(content) ? undefined : { index: false, follow: true },
@@ -181,17 +194,7 @@ export function pseoJsonLd(content: PseoPageContent): JsonLd[] {
         "@type": "WebPageElement",
         cssSelector: "main",
       },
-      publisher: {
-        "@type": "MedicalBusiness",
-        name: "Rutherford Spine & Wellness Center",
-        telephone: businessInfo.phone,
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: businessInfo.address.line1,
-          addressLocality: "Murfreesboro",
-          addressRegion: "TN",
-        },
-      },
+      publisher: { "@id": ORGANIZATION_ID },
     },
     {
       "@context": "https://schema.org",
