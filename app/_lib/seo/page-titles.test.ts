@@ -127,8 +127,6 @@ describe("indexable titles", () => {
     const forbidden = [
       "When Neck Pain After a Car Accident | Rutherford",
       "Chronic Pain in Murfreesboro | Rutherford",
-      "to See a Chiropractor",
-      "to Explore Chiropractic",
       "Triggers Active",
       "Warm-Ups and Prehab |",
       "Seat Setup, Posture, Treatment",
@@ -138,6 +136,7 @@ describe("indexable titles", () => {
     for (const [path, raw] of CMS_POSTS) {
       const title = resolveIndexableTitle(path, raw);
       assert.equal(title, expected[path], path);
+      assert.equal(/^to\b/i.test(title), false, title);
       for (const snippet of forbidden) {
         assert.equal(title.includes(snippet), false, `${path} ${title}`);
       }
