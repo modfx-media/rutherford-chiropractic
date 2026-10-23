@@ -24,19 +24,30 @@ export function coverPrompt(title: string): string {
 }
 
 /**
- * Slugs that already have a committed file at /images/blog/covers/{slug}.jpg
- * List only. Do not fs.stat public/ — that packs images into the cron bundle.
+ * Slugs with a committed file under /images/blog/covers/.
+ * Map only. Do not fs.stat public/ — that packs images into the cron bundle.
  */
-export const COMMITTED_COVER_SLUGS: readonly string[] = [
-  "massage-therapy-and-chiropractic-care-for-joint-pain-relief-in-murfreesboro",
-]
+const COMMITTED_COVER_FILES: Record<string, string> = {
+  "massage-therapy-and-chiropractic-care-for-joint-pain-relief-in-murfreesboro":
+    "/images/blog/covers/massage-therapy-and-chiropractic-care-for-joint-pain-relief-in-murfreesboro.jpg",
+  "choosing-pain-management-in-murfreesboro-after-failed-back-surgery":
+    "/images/blog/covers/choosing-pain-management-in-murfreesboro-after-failed-back-surgery.png",
+  "questioning-your-back-pain-relief-plan-in-murfreesboro-tn":
+    "/images/blog/covers/questioning-your-back-pain-relief-plan-in-murfreesboro-tn.jpg",
+}
+
+export const COMMITTED_COVER_SLUGS: readonly string[] = Object.keys(COMMITTED_COVER_FILES)
 
 export const COMMITTED_COVER_ALTS: Record<string, string> = {
   "massage-therapy-and-chiropractic-care-for-joint-pain-relief-in-murfreesboro":
     "Woman pausing on the edge of a chair, holding a stiff painful knee on a cool autumn morning",
+  "choosing-pain-management-in-murfreesboro-after-failed-back-surgery":
+    "Anatomical illustration of a spine with lower-back pain highlighted",
+  "questioning-your-back-pain-relief-plan-in-murfreesboro-tn":
+    "Man sitting on a sofa, holding his lower back",
 }
 
 export function committedCoverUrl(slug?: string): string | null {
   if (!slug) return null
-  return COMMITTED_COVER_SLUGS.includes(slug) ? `/images/blog/covers/${slug}.jpg` : null
+  return COMMITTED_COVER_FILES[slug] ?? null
 }
