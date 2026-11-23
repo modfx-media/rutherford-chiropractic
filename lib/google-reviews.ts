@@ -58,7 +58,7 @@ async function fetchPlaceDetails(): Promise<PlaceDetails | null> {
         "X-Goog-Api-Key": apiKey,
         "X-Goog-FieldMask": FIELD_MASK,
       },
-      next: { revalidate: 86400, tags: ["google-reviews"] },
+      next: { revalidate: 259200, tags: ["google-reviews"] },
     },
   );
 
