@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { JsonLd } from "../content-map";
+import { readCmsVerbatim } from "@/lib/cms/resolve-metadata";
 import { withAbsoluteMeta } from "../seo/absolute-meta";
 import { ORIGIN, DEFAULT_OG_IMAGE } from "../content-map";
 import { PSEO_CONDITIONS, getPseoCondition, type PseoFaq } from "./conditions";
@@ -148,7 +149,12 @@ export function isIndexablePseoPage(content: PseoPageContent): boolean {
 }
 
 export function enforcePseoIndexing(meta: Metadata, content: PseoPageContent): Metadata {
-  const titled = withAbsoluteMeta(meta, content.metaTitle, content.metaDescription);
+  const verbatim = readCmsVerbatim(meta);
+  const titled = withAbsoluteMeta(
+    meta,
+    verbatim.title ?? content.metaTitle,
+    verbatim.description ?? content.metaDescription,
+  );
   if (isIndexablePseoPage(content)) return titled;
   return { ...titled, robots: { index: false, follow: true } };
 }
